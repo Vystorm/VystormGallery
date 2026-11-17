@@ -1,0 +1,55 @@
+plugins { id 'java' }
+group = 'at.esoren'
+version = '1.17.0'
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(25) }
+dependencies {
+    compileOnly files(providers.gradleProperty('vystormCoreJar').getOrElse('libs/Vystorm_Core.jar'))
+    testImplementation files(providers.gradleProperty('vystormCoreJar').getOrElse('libs/Vystorm_Core.jar'))
+    compileOnly 'io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT'
+    testImplementation 'io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT'
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.0.1'
+    testImplementation 'org.mockito:mockito-core:5.20.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:6.0.1'
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+test { useJUnitPlatform() }
+processResources { inputs.property('version', project.version); filesMatching('plugin.yml') { expand(version: project.version) } }
+jar { archiveFileName = "VystormGallery-${project.version}.jar"; from('LICENSE'); from('PROVENANCE.md') }
+
+sourceSets {
+    modern { compileClasspath += sourceSets.main.output + configurations.compileClasspath }
+}
+sourceSets.test.runtimeClasspath += sourceSets.modern.output
+tasks.named('jar') { from sourceSets.modern.output }
+
+def paper1206Libraries = providers.gradleProperty('paper1206Libraries').getOrElse((System.getProperty('user.home') + '/source/tools/smoke-1206/libraries'))
+tasks.register('compat1206', JavaCompile) {
+    description = 'Compile main sources against only Paper 1.20.6 and its libraries.'
+    source = sourceSets.main.allJava
+    classpath = files(providers.gradleProperty('vystormCoreJar').getOrElse('libs/Vystorm_Core.jar')) + fileTree(paper1206Libraries) { include '**/*.jar' }
+    destinationDirectory = layout.buildDirectory.dir('classes/java/compat1206')
+    javaCompiler = javaToolchains.compilerFor { languageVersion = JavaLanguageVersion.of(25) }
+    doFirst {
+        if (!file("${paper1206Libraries}/io/papermc/paper/paper-api/1.20.6-R0.1-SNAPSHOT/paper-api-1.20.6-R0.1-SNAPSHOT.jar").isFile()) {
+            throw new GradleException('Paper 1.20.6 libraries missing; set -Ppaper1206Libraries=<libraries directory>')
+        }
+    }
+}
+tasks.named('check') { dependsOn 'compat1206' }
+tasks.register('compileCompatTestJava', JavaCompile) {
+    source = fileTree('src/compatTest/java') { include '**/*.java' }
+    classpath = tasks.named('compat1206', JavaCompile).get().classpath + sourceSets.main.output
+    destinationDirectory = layout.buildDirectory.dir('classes/java/compatTest')
+    javaCompiler = javaToolchains.compilerFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.register('test1206', JavaExec) {
+    dependsOn 'compileCompatTestJava', 'modernClasses'
+    classpath = files(tasks.named('compileCompatTestJava').map { it.destinationDirectory }) + sourceSets.main.output + sourceSets.modern.output + tasks.named('compat1206', JavaCompile).get().classpath
+    mainClass = 'at.esoren.vystormgallery.LegacyPaintingSmoke'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.named('check') { dependsOn 'test1206' }

@@ -1,0 +1,72 @@
+# Vystorm Gallery
+# Right-click a painting with an empty hand, scroll the mouse wheel to flip through motifs, right-click again to keep it.
+# Sneak + right-click flips one motif without scroll mode.
+
+# fit: every motif that fits the free wall space (the painting may grow or shrink)
+# same-size: only motifs with the painting's current size
+mode: fit
+
+# Motifs that are never offered, e.g. [minecraft:skull_and_roses] (namespace optional). Datapack motifs are included automatically.
+excluded: []
+
+# Scroll mode ends after this many seconds without scrolling, or when the player is further away than max-distance blocks.
+scroll-timeout-seconds: 20
+max-distance: 8
+
+sneak-click-flips: true
+sound: true
+
+# Hanging a new painting starts scroll mode right away, so the player picks the motif on the spot.
+select-on-place: true
+
+# Painting brush: sneak + right-click a painting with a brush copies its motif, right-click another painting applies it.
+brush: true
+
+# Favourite motifs: shift-click a motif in the motif menu to mark it; favourites are shown first (with a star) in every
+# motif menu of that player. Stored on the player, up to 54.
+favourites: true
+
+# Painting lock: /vgallery lock or the padlock in the motif menu locks a painting to you. Others cannot change its motif.
+# Owners and players with vystormgallery.bypass can always change and unlock it. Stored on the painting itself.
+lock:
+  enabled: true
+  # Other players (and their arrows) cannot break a locked painting. A missing wall still drops it.
+  protect-break: true
+  # Explosions (creepers, TNT) do not break locked paintings.
+  protect-explosions: true
+
+# Slideshow: /vgallery slideshow or the clock in the motif menu makes a painting show the next motif every few seconds.
+# Stored on the painting itself, so it keeps running after restarts.
+slideshow:
+  enabled: true
+  # Interval when started without a value; menu right-click steps through the intervals list.
+  default-seconds: 30
+  intervals: [10, 30, 60, 300]
+  min-seconds: 5
+  max-seconds: 3600
+  # true: only motifs with the painting's size (the wall layout never changes); false: uses mode above.
+  same-size: true
+  # Random order instead of small to large.
+  shuffle: false
+  # Paintings only change while a player is within this many blocks.
+  player-range: 32
+  sound: false
+
+tours:
+  # Guided tours: a published exhibition with two or more paintings gets a "Tour" button. Visitors walk to each
+  # painting in order and read its caption (owners: look at a painting and use /vgallery exhibitions caption NAME TEXT).
+  # The finish reward is given once per exhibition and visitor; owners get none for their own tours.
+  enabled: true
+  # How close you must come to a painting to reach the stop (1.5-16 blocks).
+  arrival-radius: 4
+  # XP for finishing a tour (0 = none).
+  reward-xp: 50
+
+album:
+  # Motif album (/vgallery album): every motif a player hangs is collected. Motifs are grouped by size (1x1, 2x1,
+  # 4x4, ...); collecting a whole group earns a one-time reward.
+  enabled: true
+  # XP for each completed size group (0 = none).
+  reward-xp: 50
+  # Extra console commands for each completed group; {player} and {size} are replaced, e.g. "give {player} emerald 2".
+  reward-commands: []

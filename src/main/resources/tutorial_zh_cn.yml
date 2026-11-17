@@ -1,0 +1,13 @@
+title: '画廊'
+permission: vystormgallery.use
+pages:
+  - title: '选择图案'
+    text: |
+      看向一幅画并输入 /vgallery（或 /gallery）打开图案菜单。
+  - title: '锁定与幻灯片'
+    text: |
+      锁定画作后只有你能修改或拆除。幻灯片会自动切换图案，例如每 30 秒一次。
+  - title: '展览'
+    text: |
+      把画作收集成展览，供他人参观和投票。
+      输入 /vgallery help 查看全部命令。

@@ -1,0 +1,210 @@
+# Português (Brasil) — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+scroll-hint: <gold>Role para virar <yellow>{count}</yellow> Motivos <gray>- Botão direito para manter
+changed: <gold>🖼 <yellow>{art}</yellow> <gray>{size} · {pos}/{total}
+kept: '<green>Pintura mantida: <yellow>{art}'
+ended: <gray>A seleção da pintura terminou.
+no-options: <gray>Nenhum outro motivo se encaixa aqui.
+denied: <red>Você não tem permissão para isso.
+reloaded: <green>Vystorm Galeria recarregada ({count} motivos conhecidos).
+usage: <gray>{label} [menu] é uma lista aleatória
+brush-lore: '<gray>Motif: <yellow>{art}</yellow> - Clique com o botão direito de uma pintura para aplicar'
+brush-copied: <green>Escova segura <yellow>{art}</yellow>. Clique com o botão direito em outra pintura para aplicá-la.
+brush-empty: <gray>Sneak + clique com o botão direito de uma pintura com o pincel para pegar seu motivo.
+does-not-fit: <red>{art} não cabe aqui.
+look-at-painting: <red>Olhe para uma pintura (máx. 6 quarteirões).
+menu-title: Motifs ({count})
+menu-name: <gold>{art}
+menu-size: <gray>{size} blocos - clique para pendurar
+menu-title-page: Motifs ({count}) – página {page}/{pages}
+menu-current: <green>Motivo atual <gray>({size} blocos)
+menu-previous: <yellow>« Página {page}/{pages}
+menu-next: <yellow>Página {page}/{pages} »
+unknown-motif: <red>Sem motivo <yellow>{name}</yellow> Aqui. <gray>A tabulação completa os nomes.
+locked: <green>Pintura trancada. Só você pode mudar ou quebrar agora.
+unlocked: <gray>Pintura destrancada.
+locked-by: <red>Esta pintura está trancada por <yellow>{owner}</yellow>.
+feature-off: <gray>Este recurso está desligado neste servidor.
+slideshow-on: '<green>Slideshow começou: um novo motivo a cada <yellow>{time}</yellow>.'
+slideshow-off: <gray>Slideshow parou.
+slideshow-usage: <gray>{label} slideshow (segundos, e.g. 30 ou 5m)
+menu-lock: <yellow>Travando a pintura
+menu-lock-lore: '<gray>Clique: só você pode mudar ou quebrar'
+menu-locked: <gold>Travado por {owner}
+menu-unlock-lore: <gray>Clique para desbloquear
+menu-locked-lore: <gray>Só o dono pode destravá-lo
+menu-slideshow-off: <yellow>Iniciar apresentação de slides
+menu-slideshow-off-lore: '<gray>Click esquerdo: novo motivo a cada {time} · Botão direito: {next}'
+menu-slideshow-on: '<gold>Slideshow: a cada {time}'
+menu-slideshow-on-lore: '<gray>Clique com o botão esquerdo: {next}'
+menu-name-favourite: <gold>★ {art}
+menu-favourite-add: '<gray>Shift-click: marque como favorito'
+menu-favourite-remove: <yellow>★ Favorito <gray>- Mude de clique para remover
+favourite-added: <gold>★ <yellow>{art}</yellow> é agora um favorito - mostrado primeiro no menu de motivos.
+favourite-removed: <gray>{art} não é mais um favorito.
+favourite-full: <red>No máximo {max} motivos favoritos.
+undo-empty: <gray>Nenhuma mudança para desfazer neste quadro. Olhe o quadro que você mudou pela última vez.
+undo-unavailable: <red>O motivo anterior não é mais permitido pelas configurações atuais.
+undo-restored: '<green>Pintura restaurada: <yellow>{art}'
+playlist-empty: '<gray>Sem playlist: a apresentação usa todos os motivos permitidos.'
+playlist-list: '<gold>Lista de reprodução ({count}): <yellow>{motifs}'
+playlist-cleared: <green>Lista de reprodução liberada. O slideshow usa todos os motivos permitidos novamente.
+playlist-duplicate: <gray>Este motivo já está na playlist.
+playlist-full: <red>No máximo {max} motivos por playlist.
+playlist-added: <green>Motivo atual anexado à lista de reprodução.
+playlist-missing: <gray>O motivo atual não está na lista.
+playlist-removed: <green>Motivo atual removido. Uma playlist vazia usa todos os motivos permitidos.
+commands:
+  vgallery:
+    description: 'Pinturas: menu de motivos, motivo aleatório, motivo pelo nome, bloqueio e slideshow'
+    aliases: []
+    args:
+      motif: MOTIF
+    sub:
+      album:
+        name: album
+        aliases: []
+        description: "Seu álbum de motivos: pinturas coletadas por tamanho"
+      exhibitions:
+        name: exhibitions
+        aliases: []
+        description: "Organize pinturas em exposições e vote nas favoritas."
+        args:
+          action: ACTION
+      menu:
+        name: menu
+        aliases: []
+        description: Menu Motif da pintura que você olha
+      random:
+        name: random
+        aliases: []
+        description: Um motivo aleatório que se encaixa na parede
+      undo:
+        name: undo
+        aliases: []
+        description: Desfaça sua última mudança na pintura que você olha
+      lock:
+        name: lock
+        aliases: []
+        description: 'Tranque ou desbloqueie o quadro: só você pode mudar ou quebrar'
+      slideshow:
+        name: slideshow
+        aliases: []
+        description: Comece ou pare uma apresentação na pintura (e.g. 30 ou 5m; fora pára)
+        args:
+          interval: SECONDS off
+      playlist:
+        name: playlist
+        aliases: []
+        description: Gerencie a lista de slides desta pintura
+        sub:
+          add:
+            name: add
+            aliases: []
+            description: Anexe o motivo atual
+          remove:
+            name: remove
+            aliases: []
+            description: Remova o motivo atual
+          clear:
+            name: clear
+            aliases: []
+            description: Use todos os motivos novamente
+          first:
+            name: first
+            aliases: []
+            description: Mova o motivo atual para o início
+          last:
+            name: last
+            aliases: []
+            description: Mova o motivo atual para o fim
+          list:
+            name: list
+            aliases: []
+            description: Mostre o motivo salvo
+      reload:
+        name: reload
+        aliases: []
+        description: Recarregar arquivos de configuração e linguagem
+playlist-first: <green>Motivo atual movido para o início da playlist.
+playlist-last: <green>O motivo atual foi para o final da lista.
+
+# Free feature release: exhibitions
+exhibitions:
+  previous: "Página anterior"
+  next: "Próxima página"
+  name-prompt: "Nome da exposição: 1–24 letras, números, _ ou -"
+  title: "Exposições de pinturas"
+  description: "Organize pinturas em exposições e vote nas favoritas."
+  create: "Criar exposição"
+  summary: "{count} pinturas · {votes} votos"
+  public: "Publicada"
+  private: "Rascunho privado"
+  title-prompt: "Título da exposição (até 64 caracteres)"
+  description-prompt: "Descrição (até 240 caracteres)"
+  loaded: "Pintura carregada no momento"
+  unloaded: "Pintura não carregada ou removida; informações salvas"
+  remove-hint: "Shift-clique: remover; alterar pinturas zera os votos"
+  view-hint: "Visite estas coordenadas para ver o original"
+  back: "Voltar às exposições"
+  add: "Adicionar a pintura que você está olhando"
+  rename: "Editar título"
+  describe: "Editar descrição"
+  publish: "Publicar exposição"
+  hide: "Tornar exposição privada"
+  vote: "Votar / retirar seu voto"
+  delete: "Excluir exposição"
+  delete-confirm: "Excluir a exposição? As pinturas permanecerão intactas."
+  result-saved: "<green>Exposição salva."
+  result-missing: "<red>Exposição não encontrada."
+  result-denied: "<red>Ação não permitida nesta exposição ou pintura."
+  result-invalid: "<red>Nome/texto inválido ou duplicado, ou nenhuma pintura para publicar."
+  result-limit: "<red>Limite: 10 exposições por jogador, 60 pinturas por exposição."
+  result-unavailable: "<red>Armazenamento indisponível; alterações não salvas."
+  usage: "/vgallery exhibitions [create NOME | open NOME | add NOME | title NOME TEXTO | description NOME TEXTO | caption NOME TEXTO | tour NOME | stop-tour | publish NOME | hide NOME | delete NOME]"
+  tour: "Iniciar a visita guiada"
+  tour-started: "<gold>🧭 Visita \"{title}\" iniciada: {count} paradas. Siga a barra de ação. /vgallery exhibitions stop-tour encerra."
+  tour-next: "<yellow>🧭 Parada {number}/{total}: a {distance} blocos ({x}, {y}, {z})"
+  tour-world: "<yellow>🧭 A parada {number}/{total} fica no mundo {world}."
+  tour-stop: "<gold>🧭 Parada {number}/{total} – {motif}: <yellow>{caption}"
+  tour-stop-plain: "<gold>🧭 Parada {number}/{total} – {motif}"
+  tour-done: "<green>🧭 Você concluiu a visita \"{title}\". Obrigado pela visita!"
+  tour-reward: "<gold>🧭 Recompensa: +{xp} XP."
+  tour-stopped: "<gray>🧭 A visita terminou."
+  tour-none: "<gray>Você não está em nenhuma visita."
+  tour-too-short: "<red>Uma visita precisa de pelo menos duas pinturas."
+  tour-disabled: "<gray>Visitas guiadas estão desligadas neste servidor."
+  caption-set: "<green>Texto da parada salvo."
+  caption-cleared: "<green>Texto removido."
+  caption-not-in: "<red>Esta pintura não faz parte dessa exposição."
+album:
+  title: "🖼 Álbum de motivos"
+  close: "Fechar"
+  intro: "Você pendurou {found} de {total} motivos. Complete um tamanho inteiro para ganhar uma recompensa."
+  row: "<gray>{size}: {found}/{total}"
+  row-ready: "<gold>{size}: {found}/{total} – completo, pegue sua recompensa!"
+  row-done: "<green>{size}: {found}/{total} ✔"
+  claim: "🎁 Pegar recompensas"
+  rewarded: "<gold>🖼 Álbum {size} completo: +{xp} XP."
+  group-complete: "<gold>🖼 Você coletou todos os motivos {size}! Abra /vgallery album para a recompensa."
+  disabled: "<gray>O álbum de motivos está desligado neste servidor."
+panel:
+  motifs: "Motivos"
+  size: "Tamanho"
+  current: "Motivo atual"
+  apply: "Pendurar este motivo"
+  favourite: "Favorito"
+  lock-hint: "Só você pode alterar ou remover o quadro."
+  slideshow: "Apresentação de slides"
+  interval: "Intervalo (segundos)"
+  next-interval: "Próximo intervalo"
+  settings: "Configurações"
+  pick-motif: "Selecione um motivo para ver os detalhes e pendurá-lo."
+  empty: "Ainda não há nada aqui."
+  open: "Abrir exposição"
+  browse: "Explorar"
+  paintings: "Quadros"
+  location: "Localização"
+  remove: "Remover quadro"
+  remove-confirm: "Remover este quadro da exposição? Os votos serão zerados; o quadro continuará no mundo."
+  save: "Salvar"
+  votes: "Votos"

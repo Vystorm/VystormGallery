@@ -1,0 +1,210 @@
+# Русский — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+scroll-hint: <gold>Scroll to Flip Through скачать <yellow>{count}</yellow> мотивы <gray>Правый клик, чтобы сохранить
+changed: <gold>🖼 <yellow>{art}</yellow> <gray>{size} · {pos}/{total}
+kept: '<green>Сохраняется живопись: <yellow>{art}'
+ended: <gray>Выбор картин закончился.
+no-options: <gray>Никакой другой мотив здесь не подходит.
+denied: <red>У вас нет на это разрешения.
+reloaded: <green>Vystorm Галерея перезагружена (известен {count} мотив).
+usage: <gray>/{label} [menu] | random | (имя мотива) | lock | slideshow | reload | undo | playlist
+brush-lore: '<gray>Мотив: <yellow>{art}</yellow> - щелкните правой кнопкой мыши картину, чтобы применить'
+brush-copied: <green>Кисточка держит <yellow>{art}</yellow>. Нажмите правой кнопкой мыши другую картину, чтобы применить ее.
+brush-empty: <gray>Присядьте + щелкните правой кнопкой мыши картину, чтобы подобрать ее мотив.
+does-not-fit: <red>{art} здесь не годится.
+look-at-painting: <red>Посмотрите на картину (максимум). 6 блоков.
+menu-title: Мотивы ({count})
+menu-name: <gold>{art}
+menu-size: <gray>{size} блоков - нажмите, чтобы повесить
+menu-title-page: Мотивы ({count}) - страница {page}/{pages}
+menu-current: <green>Текущий мотив <gray>({size} блоков)
+menu-previous: <yellow>« Страница {page}/{pages}
+menu-next: <yellow>Страница {page}/{pages} »
+unknown-motif: <red>Без мотива <yellow>{name}</yellow> Вот. <gray>Tab завершает имена.
+locked: <green>Картина закрыта. Только вы можете изменить или сломать его сейчас.
+unlocked: <gray>Картина открыта.
+locked-by: <red>Эта картина заперта <yellow>{owner}</yellow>.
+feature-off: <gray>Эта функция отключена на этом сервере.
+slideshow-on: '<green>Слайд-шоу началось: новый мотив каждого <yellow>{time}</yellow>.'
+slideshow-off: <gray>Слайдшоу остановилось.
+slideshow-usage: <gray>/{label} слайд-шоу (секунды, e.g). 30 или 5 м
+menu-lock: <yellow>Замковая живопись
+menu-lock-lore: '<gray>Кликните: только вы можете изменить или сломать его'
+menu-locked: <gold>Закрытый {owner}
+menu-unlock-lore: <gray>Нажмите, чтобы разблокировать
+menu-locked-lore: <gray>Разблокировать его может только владелец
+menu-slideshow-off: <yellow>Начать слайд-шоу
+menu-slideshow-off-lore: '<gray>Левый клик: новый мотив каждые {time} · правый клик: {next}'
+menu-slideshow-on: '<gold>Слайд-шоу: каждые {time}'
+menu-slideshow-on-lore: '<gray>Левый клик: стоп · правый клик: каждый {next}'
+menu-name-favourite: <gold>★ {art}
+menu-favourite-add: '<gray>Shift-click: марка как фаворит'
+menu-favourite-remove: <yellow>★ Любимый <gray>- shift-click для удаления
+favourite-added: <gold>★ <yellow>{art}</yellow> Теперь это фаворит - показанный сначала в мотивном меню.
+favourite-removed: <gray>{art} больше не является фаворитом.
+favourite-full: <red>Всего {max} любимых мотивов.
+undo-empty: <gray>Никаких изменений в этой картине. Посмотрите на картину, которую вы в последний раз изменили.
+undo-unavailable: <red>Предыдущий мотив больше не допускается текущими настройками.
+undo-restored: '<green>Восстановленная живопись: <yellow>{art}'
+playlist-empty: '<gray>Нет плейлиста: слайд-шоу использует все разрешенные мотивы.'
+playlist-list: '<gold>Плейлист ({count}): <yellow>{motifs}'
+playlist-cleared: <green>Плейлист очищен. Слайд-шоу снова использует все разрешенные мотивы.
+playlist-duplicate: <gray>Этот мотив уже есть в плейлисте.
+playlist-full: <red>Максимально {max} мотивов в плейлисте.
+playlist-added: <green>Текущий мотив добавлен в плейлист.
+playlist-missing: <gray>Нынешний мотив отсутствует в плейлисте.
+playlist-removed: <green>Нынешний мотив снят. Пустой плейлист использует все разрешенные мотивы.
+commands:
+  vgallery:
+    description: 'Картины: меню мотивов, случайный мотив, мотив по имени, блокировка и слайд-шоу'
+    aliases: []
+    args:
+      motif: MOTIF
+    sub:
+      album:
+        name: album
+        aliases: []
+        description: "Ваш альбом мотивов: собранные картины по размеру"
+      exhibitions:
+        name: exhibitions
+        aliases: []
+        description: "Объединяйте картины в выставки и голосуйте за любимые."
+        args:
+          action: ACTION
+      menu:
+        name: menu
+        aliases: []
+        description: Мотив меню картины, на которую вы смотрите
+      random:
+        name: random
+        aliases: []
+        description: Случайный мотив, который подходит к стене
+      undo:
+        name: undo
+        aliases: []
+        description: Отмените свой последний мотив на картине, на которую вы смотрите
+      lock:
+        name: lock
+        aliases: []
+        description: 'Заблокируйте или разблокируйте картину: только вы можете изменить или сломать ее'
+      slideshow:
+        name: slideshow
+        aliases: []
+        description: Начните или остановите слайд-шоу на картине (e.g). 30 или 5 м; остановка
+        args:
+          interval: SECONDS |off
+      playlist:
+        name: playlist
+        aliases: []
+        description: Управляйте плейлистом слайд-шоу этой картины
+        sub:
+          add:
+            name: add
+            aliases: []
+            description: Добавить текущий мотив
+          remove:
+            name: remove
+            aliases: []
+            description: Удалите текущий мотив
+          clear:
+            name: clear
+            aliases: []
+            description: Используйте все мотивы снова
+          first:
+            name: first
+            aliases: []
+            description: Переместите текущий мотив в начало
+          last:
+            name: last
+            aliases: []
+            description: Переместите текущий мотив в конец
+          list:
+            name: list
+            aliases: []
+            description: Показать сохраненный мотив
+      reload:
+        name: reload
+        aliases: []
+        description: Перезагрузка конфигурационных и языковых файлов
+playlist-first: <green>Нынешний мотив переместился в начало плейлиста.
+playlist-last: <green>Нынешний мотив переместился в конец плейлиста.
+
+# Free feature release: exhibitions
+exhibitions:
+  previous: "Предыдущая страница"
+  next: "Следующая страница"
+  name-prompt: "Имя выставки: 1–24 латинские буквы, цифры, _ или -"
+  title: "Выставки картин"
+  description: "Объединяйте картины в выставки и голосуйте за любимые."
+  create: "Создать выставку"
+  summary: "Картин: {count} · голосов: {votes}"
+  public: "Опубликована"
+  private: "Личный черновик"
+  title-prompt: "Название выставки (до 64 символов)"
+  description-prompt: "Описание (до 240 символов)"
+  loaded: "Картина сейчас загружена"
+  unloaded: "Картина не загружена или удалена; показаны сохранённые сведения"
+  remove-hint: "Shift-клик: убрать; изменение картин сбрасывает голоса"
+  view-hint: "Посетите эти координаты, чтобы увидеть оригинал"
+  back: "К выставкам"
+  add: "Добавить картину перед вами"
+  rename: "Изменить название"
+  describe: "Изменить описание"
+  publish: "Опубликовать выставку"
+  hide: "Скрыть выставку"
+  vote: "Голосовать / отозвать голос"
+  delete: "Удалить выставку"
+  delete-confirm: "Удалить выставку? Сами картины останутся без изменений."
+  result-saved: "<green>Выставка сохранена."
+  result-missing: "<red>Выставка не найдена."
+  result-denied: "<red>Это действие с выставкой или картиной запрещено."
+  result-invalid: "<red>Неверное или повторное имя/текст, либо нет картин для публикации."
+  result-limit: "<red>Лимит: 10 выставок на игрока, 60 картин на выставку."
+  result-unavailable: "<red>Хранилище недоступно; изменения не сохранены."
+  usage: "/vgallery exhibitions [create ИМЯ | open ИМЯ | add ИМЯ | title ИМЯ ТЕКСТ | description ИМЯ ТЕКСТ | caption ИМЯ ТЕКСТ | tour ИМЯ | stop-tour | publish ИМЯ | hide ИМЯ | delete ИМЯ]"
+  tour: "Начать экскурсию"
+  tour-started: "<gold>🧭 Экскурсия «{title}» началась: {count} остановок. Следуйте строке действий. /vgallery exhibitions stop-tour завершает её."
+  tour-next: "<yellow>🧭 Остановка {number}/{total}: {distance} блоков ({x}, {y}, {z})"
+  tour-world: "<yellow>🧭 Остановка {number}/{total} находится в мире {world}."
+  tour-stop: "<gold>🧭 Остановка {number}/{total} – {motif}: <yellow>{caption}"
+  tour-stop-plain: "<gold>🧭 Остановка {number}/{total} – {motif}"
+  tour-done: "<green>🧭 Вы завершили экскурсию «{title}». Спасибо за визит!"
+  tour-reward: "<gold>🧭 Награда: +{xp} XP."
+  tour-stopped: "<gray>🧭 Экскурсия завершена."
+  tour-none: "<gray>Вы не на экскурсии."
+  tour-too-short: "<red>Для экскурсии нужно минимум две картины."
+  tour-disabled: "<gray>Экскурсии на этом сервере отключены."
+  caption-set: "<green>Текст остановки сохранён."
+  caption-cleared: "<green>Текст удалён."
+  caption-not-in: "<red>Эта картина не входит в эту выставку."
+album:
+  title: "🖼 Альбом мотивов"
+  close: "Закрыть"
+  intro: "Вы повесили {found} из {total} мотивов. Соберите целый размер, чтобы получить награду."
+  row: "<gray>{size}: {found}/{total}"
+  row-ready: "<gold>{size}: {found}/{total} – собрано, заберите награду!"
+  row-done: "<green>{size}: {found}/{total} ✔"
+  claim: "🎁 Забрать награды"
+  rewarded: "<gold>🖼 Альбом {size} собран: +{xp} опыта."
+  group-complete: "<gold>🖼 Вы собрали все мотивы {size}! Откройте /vgallery album за наградой."
+  disabled: "<gray>Альбом мотивов на этом сервере отключён."
+panel:
+  motifs: "Мотивы"
+  size: "Размер"
+  current: "Текущий мотив"
+  apply: "Повесить этот мотив"
+  favourite: "Избранное"
+  lock-hint: "Только вы можете менять или снимать картину."
+  slideshow: "Слайд-шоу"
+  interval: "Интервал (секунды)"
+  next-interval: "Следующий интервал"
+  settings: "Настройки"
+  pick-motif: "Выберите мотив, чтобы посмотреть подробности и повесить его."
+  empty: "Здесь пока ничего нет."
+  open: "Открыть выставку"
+  browse: "Обзор"
+  paintings: "Картины"
+  location: "Расположение"
+  remove: "Убрать картину"
+  remove-confirm: "Убрать эту картину из выставки? Голоса будут сброшены; картина останется в мире."
+  save: "Сохранить"
+  votes: "Голоса"

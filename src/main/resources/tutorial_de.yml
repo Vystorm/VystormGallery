@@ -1,0 +1,13 @@
+title: 'Galerie'
+permission: vystormgallery.use
+pages:
+  - title: 'Motiv wählen'
+    text: |
+      Schau ein Gemälde an und tippe /vgallery (oder /gallery), um das Motivmenü zu öffnen. Wähle ein Motiv, das an die Wand passt.
+  - title: 'Sperren und Diashow'
+    text: |
+      Sperre ein Gemälde, damit nur du es ändern oder abbauen kannst. Eine Diashow wechselt das Motiv von selbst, zum Beispiel alle 30 Sekunden.
+  - title: 'Ausstellungen'
+    text: |
+      Sammle Gemälde in Ausstellungen, die andere besuchen und bewerten können.
+      Mit /vgallery help siehst du alle Befehle.

@@ -1,0 +1,244 @@
+{
+  "version": 1,
+  "intro": {
+    "en": "A few quick choices for Vystorm Gallery. Everything else stays on its defaults.",
+    "de": "Ein paar schnelle Entscheidungen für Vystorm Gallery. Alles andere bleibt auf Standard.",
+    "fr": "Quelques choix rapides pour Vystorm Gallery. Le reste garde ses valeurs par défaut.",
+    "it": "Alcune scelte rapide per Vystorm Gallery. Il resto resta predefinito.",
+    "pt_br": "Algumas escolhas rápidas para Vystorm Gallery. O resto fica no padrão.",
+    "ru": "Несколько быстрых решений для Vystorm Gallery. Остальное останется по умолчанию.",
+    "zh_cn": "Vystorm Gallery 的几个快速选项，其余保持默认。"
+  },
+  "questions": [
+    {
+      "id": "lock",
+      "text": {
+        "en": "Let players lock their paintings?",
+        "de": "Dürfen Spieler ihre Gemälde sperren?",
+        "fr": "Les joueurs peuvent-ils verrouiller leurs tableaux ?",
+        "it": "I giocatori possono bloccare i quadri?",
+        "pt_br": "Jogadores podem trancar pinturas?",
+        "ru": "Разрешить запирать картины?",
+        "zh_cn": "允许玩家锁定画？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:lock.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:lock.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slideshow",
+      "text": {
+        "en": "Enable slideshow paintings?",
+        "de": "Diashow-Gemälde aktivieren?",
+        "fr": "Activer les tableaux diaporama ?",
+        "it": "Attivare i quadri a diapositive?",
+        "pt_br": "Ativar pinturas em slides?",
+        "ru": "Включить картины-слайдшоу?",
+        "zh_cn": "启用幻灯片画？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:slideshow.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:slideshow.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "brush",
+      "text": {
+        "en": "Allow copying motifs with a brush?",
+        "de": "Motive mit dem Pinsel kopieren erlauben?",
+        "fr": "Autoriser la copie de motifs au pinceau ?",
+        "it": "Consentire di copiare motivi col pennello?",
+        "pt_br": "Permitir copiar motivos com pincel?",
+        "ru": "Разрешить копировать сюжеты кистью?",
+        "zh_cn": "允许用刷子复制图案？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:brush": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:brush": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "album",
+      "text": {
+        "en": "Reward players for collecting every painting motif of a size (motif album)?",
+        "de": "Spieler fürs Sammeln aller Motive einer Größe belohnen (Motiv-Album)?",
+        "fr": "Récompenser les joueurs qui collectionnent tous les motifs d’une taille (album) ?",
+        "it": "Premiare chi raccoglie tutti i motivi di una dimensione (album)?",
+        "pt_br": "Recompensar quem coleta todos os motivos de um tamanho (álbum)?",
+        "ru": "Награждать за сбор всех мотивов одного размера (альбом)?",
+        "zh_cn": "集齐某尺寸全部画作时给予奖励（画作图鉴）？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:album.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:album.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "tours",
+      "text": {
+        "en": "Allow guided tours through exhibitions (finish reward)?",
+        "de": "Führungen durch Ausstellungen erlauben (Belohnung am Ende)?",
+        "fr": "Autoriser les visites guidées des expositions (récompense finale) ?",
+        "it": "Consentire le visite guidate delle mostre (ricompensa finale)?",
+        "pt_br": "Permitir visitas guiadas por exposições (recompensa no fim)?",
+        "ru": "Разрешить экскурсии по выставкам (награда в конце)?",
+        "zh_cn": "允许展览导览（完成有奖励）？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:tours.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:tours.enabled": false
+          }
+        }
+      ]
+    }
+  ]
+}

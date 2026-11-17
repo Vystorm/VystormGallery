@@ -1,0 +1,210 @@
+# Français — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+scroll-hint: <gold>Faites défiler pour retourner à travers <yellow>{count}</yellow> motifs <gray>– clic droit pour garder
+changed: <gold>🖼 <yellow>{art}</yellow> <gray>{size} · {pos}/{total}
+kept: '<green>Peinture conservée : <yellow>{art}'
+ended: <gray>La sélection de peinture a pris fin.
+no-options: <gray>Aucun autre motif ne convient ici.
+denied: <red>Vous n'avez pas la permission pour ça.
+reloaded: <green>Vystorm Galerie rechargée (des motifs {count} connus).
+usage: <gray>/{label} [menu] randomisé (motif name)
+brush-lore: '<gray>Motif : <yellow>{art}</yellow> – clic droit sur une peinture à appliquer'
+brush-copied: <green>Porte-brosse <yellow>{art}</yellow>. Faites un clic droit sur une autre peinture pour l'appliquer.
+brush-empty: <gray>Sneak + clic droit sur une peinture avec la brosse pour saisir son motif.
+does-not-fit: <red>{art} ne convient pas ici.
+look-at-painting: <red>Regardez un tableau (max. 6 blocs).
+menu-title: Motifs ({count})
+menu-name: <gold>{art}
+menu-size: <gray>{size} blocs – cliquez pour accrocher
+menu-title-page: Motifs ({count}) – page {page}/{pages}
+menu-current: <green>Motif actuel <gray>({size} blocs)
+menu-previous: <yellow>« Page {page}/{pages}
+menu-next: <yellow>Page {page}/{pages} »
+unknown-motif: <red>Pas de motif <yellow>{name}</yellow> Ici. <gray>Onglet complète les noms.
+locked: <green>Peinture verrouillée. Seul vous pouvez le changer ou le casser maintenant.
+unlocked: <gray>Peinture déverrouillée.
+locked-by: <red>Cette peinture est verrouillée par <yellow>{owner}</yellow>.
+feature-off: <gray>Cette fonctionnalité est désactivée sur ce serveur.
+slideshow-on: '<green>Diaporama commencé: un nouveau motif chaque <yellow>{time}</yellow>.'
+slideshow-off: <gray>Le diaporama s'est arrêté.
+slideshow-usage: <gray>/{label} diaporama (secondes, e.g. 30 ou 5m)
+menu-lock: <yellow>Verrouiller la peinture
+menu-lock-lore: '<gray>Cliquez sur : vous seul pouvez le modifier ou le casser'
+menu-locked: <gold>Verrouillé par {owner}
+menu-unlock-lore: <gray>Cliquez pour débloquer
+menu-locked-lore: <gray>Seul le propriétaire peut le déverrouiller
+menu-slideshow-off: <yellow>Démarrer le diaporama
+menu-slideshow-off-lore: '<gray>Clic-gauche : nouveau motif tous les {time} · clic-droit : {next}'
+menu-slideshow-on: '<gold>Diaporama : tous les {time}'
+menu-slideshow-on-lore: '<gray>Cliquez-gauche : stop · clic-droit : tous les {next}'
+menu-name-favourite: <gold>★ {art}
+menu-favourite-add: '<gray>Maj-clic : marque comme favori'
+menu-favourite-remove: <yellow>★ Favoris <gray>– cliquez sur le bouton pour supprimer
+favourite-added: <gold>★ <yellow>{art}</yellow> est maintenant un favori – montré en premier dans le menu motif.
+favourite-removed: <gray>{art} n'est plus un favori.
+favourite-full: <red>Au plus {max} motifs préférés.
+undo-empty: <gray>Pas de changement à annuler sur ce tableau. Regardez le tableau que vous avez changé pour la dernière fois.
+undo-unavailable: <red>Le motif précédent n'est plus autorisé par les paramètres actuels.
+undo-restored: '<green>Peinture restaurée : <yellow>{art}'
+playlist-empty: '<gray>Pas de playlist : le diaporama utilise tous les motifs autorisés.'
+playlist-list: '<gold>Liste de lecture ({count}): <yellow>{motifs}'
+playlist-cleared: <green>La liste de lecture est vide. Le diaporama utilise à nouveau tous les motifs autorisés.
+playlist-duplicate: <gray>Ce motif est déjà dans la playlist.
+playlist-full: <red>Au plus {max} motifs par playlist.
+playlist-added: <green>Motif actuel annexé à la liste de lecture.
+playlist-missing: <gray>Le motif actuel n'est pas dans la liste de lecture.
+playlist-removed: <green>Motif actuel enlevé. Une playlist vide utilise tous les motifs autorisés.
+commands:
+  vgallery:
+    description: 'Peintures : menu motif, motif aléatoire, motif par nom, serrure et diaporama'
+    aliases: []
+    args:
+      motif: MOTIF
+    sub:
+      album:
+        name: album
+        aliases: []
+        description: "Ton album de motifs : tableaux collectionnés par taille"
+      exhibitions:
+        name: exhibitions
+        aliases: []
+        description: "Réunissez des peintures en expositions et votez pour vos préférées."
+        args:
+          action: ACTION
+      menu:
+        name: menu
+        aliases: []
+        description: Menu Motif de la peinture que vous regardez
+      random:
+        name: random
+        aliases: []
+        description: Un motif aléatoire qui correspond au mur
+      undo:
+        name: undo
+        aliases: []
+        description: Défaire votre dernier motif changer sur la peinture que vous regardez
+      lock:
+        name: lock
+        aliases: []
+        description: 'Verrouillez ou déverrouillez la peinture : vous seul pouvez la modifier ou la casser'
+      slideshow:
+        name: slideshow
+        aliases: []
+        description: Démarrer ou arrêter un diaporama sur la peinture (e.g. 30 ou 5m; arrêt)
+        args:
+          interval: SECONDSArrêt
+      playlist:
+        name: playlist
+        aliases: []
+        description: Gérer la liste de lecture de ce tableau diaporama
+        sub:
+          add:
+            name: add
+            aliases: []
+            description: Ajouter le motif actuel
+          remove:
+            name: remove
+            aliases: []
+            description: Supprimer le motif actuel
+          clear:
+            name: clear
+            aliases: []
+            description: Utilisez à nouveau tous les motifs
+          first:
+            name: first
+            aliases: []
+            description: Déplacer le motif actuel au début
+          last:
+            name: last
+            aliases: []
+            description: Déplacer le motif actuel à la fin
+          list:
+            name: list
+            aliases: []
+            description: Afficher l'ordre de motif enregistré
+      reload:
+        name: reload
+        aliases: []
+        description: Recharger les fichiers de configuration et de langue
+playlist-first: <green>Le motif actuel a été déplacé au début de la playlist.
+playlist-last: <green>Motif actuel déplacé à la fin de la playlist.
+
+# Free feature release: exhibitions
+exhibitions:
+  previous: "Page précédente"
+  next: "Page suivante"
+  name-prompt: "Nom de l’exposition : 1–24 lettres, chiffres, _ ou -"
+  title: "Expositions de peintures"
+  description: "Réunissez des peintures en expositions et votez pour vos préférées."
+  create: "Créer une exposition"
+  summary: "{count} peintures · {votes} votes"
+  public: "Publiée"
+  private: "Brouillon privé"
+  title-prompt: "Titre de l’exposition (64 caractères)"
+  description-prompt: "Description (240 caractères maximum)"
+  loaded: "Peinture actuellement chargée"
+  unloaded: "Peinture non chargée ou retirée ; informations enregistrées"
+  remove-hint: "Maj-clic : retirer ; modifier les peintures remet les votes à zéro"
+  view-hint: "Rendez-vous à ces coordonnées pour voir l’original"
+  back: "Retour aux expositions"
+  add: "Ajouter la peinture regardée"
+  rename: "Modifier le titre"
+  describe: "Modifier la description"
+  publish: "Publier l’exposition"
+  hide: "Rendre l’exposition privée"
+  vote: "Voter / retirer votre vote"
+  delete: "Supprimer l’exposition"
+  delete-confirm: "Supprimer l’exposition ? Les peintures restent inchangées."
+  result-saved: "<green>Exposition enregistrée."
+  result-missing: "<red>Exposition introuvable."
+  result-denied: "<red>Action non autorisée sur cette exposition ou peinture."
+  result-invalid: "<red>Nom/texte invalide ou déjà utilisé, ou aucune peinture à publier."
+  result-limit: "<red>Limite : 10 expositions par joueur, 60 peintures par exposition."
+  result-unavailable: "<red>Stockage indisponible ; modifications non enregistrées."
+  usage: "/vgallery exhibitions [create NOM | open NOM | add NOM | title NOM TEXTE | description NOM TEXTE | caption NOM TEXTE | tour NOM | stop-tour | publish NOM | hide NOM | delete NOM]"
+  tour: "Lancer la visite guidée"
+  tour-started: "<gold>🧭 Visite « {title} » lancée : {count} étapes. Suis la barre d’action. /vgallery exhibitions stop-tour l’arrête."
+  tour-next: "<yellow>🧭 Étape {number}/{total} : à {distance} blocs ({x}, {y}, {z})"
+  tour-world: "<yellow>🧭 L’étape {number}/{total} est dans le monde {world}."
+  tour-stop: "<gold>🧭 Étape {number}/{total} – {motif} : <yellow>{caption}"
+  tour-stop-plain: "<gold>🧭 Étape {number}/{total} – {motif}"
+  tour-done: "<green>🧭 Tu as terminé la visite « {title} ». Merci de ta visite !"
+  tour-reward: "<gold>🧭 Récompense : +{xp} XP."
+  tour-stopped: "<gray>🧭 La visite est terminée."
+  tour-none: "<gray>Tu ne fais aucune visite."
+  tour-too-short: "<red>Une visite demande au moins deux tableaux."
+  tour-disabled: "<gray>Les visites guidées sont désactivées sur ce serveur."
+  caption-set: "<green>Texte de l’étape enregistré."
+  caption-cleared: "<green>Texte supprimé."
+  caption-not-in: "<red>Ce tableau ne fait pas partie de cette exposition."
+album:
+  title: "🖼 Album de motifs"
+  close: "Fermer"
+  intro: "Tu as accroché {found} motifs sur {total}. Complète une taille entière pour une récompense."
+  row: "<gray>{size} : {found}/{total}"
+  row-ready: "<gold>{size} : {found}/{total} – complet, récupère ta récompense !"
+  row-done: "<green>{size} : {found}/{total} ✔"
+  claim: "🎁 Récupérer les récompenses"
+  rewarded: "<gold>🖼 Album {size} complet : +{xp} XP."
+  group-complete: "<gold>🖼 Tu as collectionné tous les motifs {size} ! Ouvre /vgallery album pour ta récompense."
+  disabled: "<gray>L’album de motifs est désactivé sur ce serveur."
+panel:
+  motifs: "Motifs"
+  size: "Dimensions"
+  current: "Motif actuel"
+  apply: "Accrocher ce motif"
+  favourite: "Favori"
+  lock-hint: "Vous seul pouvez modifier ou décrocher le tableau."
+  slideshow: "Diaporama"
+  interval: "Intervalle (secondes)"
+  next-interval: "Intervalle suivant"
+  settings: "Réglages"
+  pick-motif: "Sélectionnez un motif pour voir ses détails et l’accrocher."
+  empty: "Rien pour le moment."
+  open: "Ouvrir l’exposition"
+  browse: "Parcourir"
+  paintings: "Tableaux"
+  location: "Emplacement"
+  remove: "Retirer le tableau"
+  remove-confirm: "Retirer ce tableau de l’exposition ? Les votes seront réinitialisés ; le tableau restera dans le monde."
+  save: "Enregistrer"
+  votes: "Votes"

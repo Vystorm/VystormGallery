@@ -1,0 +1,13 @@
+title: 'Galerie'
+permission: vystormgallery.use
+pages:
+  - title: 'Choisir un motif'
+    text: |
+      Regardez un tableau et tapez /vgallery (ou /gallery) pour ouvrir le menu des motifs.
+  - title: 'Verrou et diaporama'
+    text: |
+      Verrouillez un tableau pour être le seul à le modifier. Un diaporama change de motif tout seul, par exemple toutes les 30 secondes.
+  - title: 'Expositions'
+    text: |
+      Rassemblez des tableaux dans des expositions que d’autres peuvent visiter.
+      Tapez /vgallery help pour voir toutes les commandes.

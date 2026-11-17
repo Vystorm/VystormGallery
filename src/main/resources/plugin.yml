@@ -1,0 +1,24 @@
+name: VystormGallery
+version: '${version}'
+main: at.esoren.vystormgallery.GalleryPlugin
+api-version: '1.20.6'
+author: Esoren
+depend: [vystorm_core]
+website: https://vystorm.net
+description: Right-click a painting and scroll to flip through every motif that fits the wall.
+permissions:
+  vystormgallery.use:
+    description: Change paintings by right-click and scrolling.
+    default: true
+  vystormgallery.admin:
+    description: Reload the configuration.
+    default: op
+  vystormgallery.lock:
+    description: Lock paintings so only you can change or break them.
+    default: true
+  vystormgallery.slideshow:
+    description: Turn paintings into slideshows.
+    default: true
+  vystormgallery.bypass:
+    description: Change, break and unlock paintings locked by others.
+    default: op

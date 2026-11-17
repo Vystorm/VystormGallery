@@ -1,0 +1,13 @@
+title: 'Gallery'
+permission: vystormgallery.use
+pages:
+  - title: 'Choose a motif'
+    text: |
+      Look at a painting and type /vgallery (or /gallery) to open the motif menu. Pick any motif that fits the wall.
+  - title: 'Lock and slideshow'
+    text: |
+      Lock a painting so only you can change or break it. A slideshow switches motifs on its own, for example every 30 seconds.
+  - title: 'Exhibitions'
+    text: |
+      Collect paintings into exhibitions others can visit and vote for.
+      Type /vgallery help to see every command.

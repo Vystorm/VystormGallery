@@ -1,0 +1,216 @@
+scroll-hint: "<gold>Mausrad: <yellow>{count}</yellow> Motive durchblättern <gray>– Rechtsklick behält es"
+changed: "<gold>🖼 <yellow>{art}</yellow> <gray>{size} · {pos}/{total}"
+kept: "<green>Gemälde behalten: <yellow>{art}"
+ended: "<gray>Gemälde-Auswahl beendet."
+no-options: "<gray>Hier passt kein anderes Motiv."
+denied: "<red>Dafür fehlt dir die Berechtigung."
+reloaded: "<green>Vystorm Gallery neu geladen ({count} Motive bekannt)."
+usage: "<gray>/{label} [menu] | random | (Motivname) | lock | slideshow | reload | rückgängig | motivliste"
+brush-lore: "<gray>Motiv: <yellow>{art}</yellow> – Rechtsklick auf ein Gemälde überträgt es"
+brush-copied: "<green>Der Pinsel trägt <yellow>{art}</yellow>. Rechtsklick auf ein anderes Gemälde überträgt es."
+brush-empty: "<gray>Schleichen + Rechtsklick mit dem Pinsel auf ein Gemälde nimmt sein Motiv auf."
+does-not-fit: "<red>{art} passt hier nicht hin."
+look-at-painting: "<red>Sieh ein Gemälde an (max. 6 Blöcke)."
+menu-title: "Motive ({count})"
+menu-name: "<gold>{art}"
+menu-size: "<gray>{size} Blöcke – klicken zum Aufhängen"
+menu-title-page: "Motive ({count}) – Seite {page}/{pages}"
+menu-current: "<green>Aktuelles Motiv <gray>({size} Blöcke)"
+menu-previous: "<yellow>« Seite {page}/{pages}"
+menu-next: "<yellow>Seite {page}/{pages} »"
+unknown-motif: "<red>Kein Motiv <yellow>{name}</yellow> verfügbar. <gray>Tab ergänzt die Namen."
+locked: "<green>Gemälde gesperrt. Nur du kannst es jetzt ändern oder abnehmen."
+unlocked: "<gray>Gemälde entsperrt."
+locked-by: "<red>Dieses Gemälde ist von <yellow>{owner}</yellow> gesperrt."
+feature-off: "<gray>Diese Funktion ist auf diesem Server ausgeschaltet."
+slideshow-on: "<green>Diashow gestartet: alle <yellow>{time}</yellow> ein neues Motiv."
+slideshow-off: "<gray>Diashow beendet."
+slideshow-usage: "<gray>/{label} slideshow (Sekunden, z. B. 30 oder 5m) | off"
+menu-lock: "<yellow>Gemälde sperren"
+menu-lock-lore: "<gray>Klick: nur du kannst es ändern oder abnehmen"
+menu-locked: "<gold>Gesperrt von {owner}"
+menu-unlock-lore: "<gray>Klicken zum Entsperren"
+menu-locked-lore: "<gray>Nur der Besitzer kann es entsperren"
+menu-slideshow-off: "<yellow>Diashow starten"
+menu-slideshow-off-lore: "<gray>Linksklick: alle {time} ein neues Motiv · Rechtsklick: {next}"
+menu-slideshow-on: "<gold>Diashow: alle {time}"
+menu-slideshow-on-lore: "<gray>Linksklick: beenden · Rechtsklick: alle {next}"
+menu-name-favourite: "<gold>★ {art}"
+menu-favourite-add: "<gray>Shift-Klick: als Favorit merken"
+menu-favourite-remove: "<yellow>★ Favorit <gray>– Shift-Klick entfernt"
+favourite-added: "<gold>★ <yellow>{art}</yellow> ist jetzt ein Favorit – steht im Motivmenü ganz vorne."
+favourite-removed: "<gray>{art} ist kein Favorit mehr."
+favourite-full: "<red>Höchstens {max} Lieblingsmotive."
+
+undo-empty: "<gray>An diesem Gemälde gibt es nichts rückgängig zu machen. Sieh das zuletzt geänderte Gemälde an."
+undo-unavailable: "<red>Das vorherige Motiv ist mit den aktuellen Einstellungen nicht mehr erlaubt."
+undo-restored: "<green>Gemälde wiederhergestellt: <yellow>{art}"
+
+# /vgallery über Vystorm Core: Beschreibung, Hilfe und Tab-Vervollständigung je Spieler. "aliases" unter
+# commands.vgallery sind zusätzliche Hauptbefehle (serverweit, der Admin wählt die Sprachen: Core-Konfig
+# commands.localized-aliases); "name" und "aliases" eines Unterbefehls werden in jeder Sprache verstanden, Englisch geht immer.
+playlist-empty: "<gray>Keine Motivliste: Die Diashow nutzt alle erlaubten Motive."
+playlist-list: "<gold>Motivliste ({count}): <yellow>{motifs}"
+playlist-cleared: "<green>Motivliste geleert. Die Diashow nutzt wieder alle erlaubten Motive."
+playlist-duplicate: "<gray>Dieses Motiv ist bereits in der Liste."
+playlist-full: "<red>Höchstens {max} Motive pro Liste."
+playlist-added: "<green>Aktuelles Motiv an die Liste angehängt."
+playlist-missing: "<gray>Das aktuelle Motiv steht nicht in der Liste."
+playlist-removed: "<green>Aktuelles Motiv entfernt. Eine leere Liste nutzt alle erlaubten Motive."
+
+commands:
+  vgallery:
+    description: "Gemälde: Motivmenü, Zufallsmotiv, Motiv nach Name, Sperre und Diashow"
+    aliases: [gemaelde, gemälde]
+    args:
+      motif: MOTIV
+    sub:
+      album:
+        name: album
+        aliases: []
+        description: "Dein Motiv-Album: gesammelte Gemälde nach Größe"
+      exhibitions:
+        name: exhibitions
+        aliases: []
+        description: "Gemälde zu Ausstellungen zusammenstellen und Favoriten wählen."
+        args:
+          action: ACTION
+      menu:
+        name: menü
+        aliases: [menue]
+        description: "Motivmenü des Gemäldes, das du ansiehst"
+      random:
+        name: zufall
+        aliases: [zufällig]
+        description: "Ein zufälliges Motiv, das an die Wand passt"
+      undo:
+        name: rückgängig
+        aliases: []
+        description: "Deinen letzten Motivwechsel am angesehenen Gemälde rückgängig machen"
+      lock:
+        name: sperren
+        aliases: [sperre]
+        description: "Gemälde sperren oder entsperren: nur du kannst es ändern oder abbauen"
+      slideshow:
+        name: diashow
+        aliases: []
+        description: "Diashow auf dem Gemälde starten oder beenden (z. B. 30 oder 5m; aus beendet sie)"
+        args:
+          interval: "SEKUNDEN|aus"
+      playlist:
+        name: motivliste
+        aliases: []
+        description: "Motivliste für die Diashow dieses Gemäldes verwalten"
+        sub:
+          add:
+            name: hinzufügen
+            aliases: []
+            description: "Aktuelles Motiv anhängen"
+          remove:
+            name: entfernen
+            aliases: []
+            description: "Aktuelles Motiv entfernen"
+          clear:
+            name: leeren
+            aliases: []
+            description: "Wieder alle Motive verwenden"
+          first:
+            name: anfang
+            aliases: []
+            description: "Aktuelles Motiv an den Anfang verschieben"
+          last:
+            name: ende
+            aliases: []
+            description: "Aktuelles Motiv ans Ende verschieben"
+          list:
+            name: anzeigen
+            aliases: []
+            description: "Gespeicherte Motivreihenfolge anzeigen"
+      reload:
+        name: neuladen
+        aliases: []
+        description: "Konfiguration und Sprachdateien neu laden"
+
+playlist-first: "<green>Aktuelles Motiv an den Anfang der Motivliste verschoben."
+playlist-last: "<green>Aktuelles Motiv ans Ende der Motivliste verschoben."
+
+# Free feature release: exhibitions
+exhibitions:
+  previous: "Vorherige Seite"
+  next: "Nächste Seite"
+  name-prompt: "Ausstellungsname: 1–24 Buchstaben, Zahlen, _ oder -"
+  title: "Gemäldeausstellungen"
+  description: "Gemälde zu Ausstellungen zusammenstellen und Favoriten wählen."
+  create: "Ausstellung erstellen"
+  summary: "{count} Gemälde · {votes} Stimmen"
+  public: "Veröffentlicht"
+  private: "Privater Entwurf"
+  title-prompt: "Ausstellungstitel (höchstens 64 Zeichen)"
+  description-prompt: "Beschreibung (höchstens 240 Zeichen)"
+  loaded: "Gemälde ist derzeit geladen"
+  unloaded: "Gemälde ungeladen oder entfernt; gespeicherte Angaben werden angezeigt"
+  remove-hint: "Shift-Klick: entfernen; Gemäldeänderungen setzen Stimmen zurück"
+  view-hint: "Besuche diese Koordinaten, um das Original zu sehen"
+  back: "Zurück zu den Ausstellungen"
+  add: "Angesehenes Gemälde hinzufügen"
+  rename: "Titel bearbeiten"
+  describe: "Beschreibung bearbeiten"
+  publish: "Ausstellung veröffentlichen"
+  hide: "Ausstellung privat stellen"
+  vote: "Abstimmen / Stimme zurücknehmen"
+  delete: "Ausstellung löschen"
+  delete-confirm: "Ausstellung löschen? Die Gemälde selbst bleiben unverändert."
+  result-saved: "<green>Ausstellung gespeichert."
+  result-missing: "<red>Ausstellung nicht gefunden."
+  result-denied: "<red>Diese Aktion ist für diese Ausstellung oder dieses Gemälde nicht erlaubt."
+  result-invalid: "<red>Ungültiger/doppelter Name oder Text, oder keine Gemälde zum Veröffentlichen."
+  result-limit: "<red>Limit: 10 Ausstellungen pro Spieler, 60 Gemälde pro Ausstellung."
+  result-unavailable: "<red>Ausstellungsspeicher nicht verfügbar; Änderungen nicht gespeichert."
+  usage: "/vgallery exhibitions [create NAME | open NAME | add NAME | title NAME TEXT | description NAME TEXT | caption NAME TEXT | tour NAME | stop-tour | publish NAME | hide NAME | delete NAME]"
+  tour: "Führung starten"
+  tour-started: "<gold>🧭 Führung „{title}“ gestartet: {count} Stationen. Folge der Aktionsleiste. /vgallery exhibitions stop-tour beendet sie."
+  tour-next: "<yellow>🧭 Station {number}/{total}: {distance} Blöcke entfernt ({x}, {y}, {z})"
+  tour-world: "<yellow>🧭 Station {number}/{total} ist in der Welt {world}."
+  tour-stop: "<gold>🧭 Station {number}/{total} – {motif}: <yellow>{caption}"
+  tour-stop-plain: "<gold>🧭 Station {number}/{total} – {motif}"
+  tour-done: "<green>🧭 Du hast die Führung „{title}“ beendet. Danke für deinen Besuch!"
+  tour-reward: "<gold>🧭 Belohnung: +{xp} XP."
+  tour-stopped: "<gray>🧭 Die Führung ist beendet."
+  tour-none: "<gray>Du bist auf keiner Führung."
+  tour-too-short: "<red>Eine Führung braucht mindestens zwei Gemälde."
+  tour-disabled: "<gray>Führungen sind auf diesem Server ausgeschaltet."
+  caption-set: "<green>Text für diese Station gespeichert."
+  caption-cleared: "<green>Text entfernt."
+  caption-not-in: "<red>Dieses Gemälde gehört nicht zu dieser Ausstellung."
+album:
+  title: "🖼 Motiv-Album"
+  close: "Schließen"
+  intro: "Du hast {found} von {total} Motiven aufgehängt. Sammle eine ganze Größe für eine Belohnung."
+  row: "<gray>{size}: {found}/{total}"
+  row-ready: "<gold>{size}: {found}/{total} – vollständig, hol deine Belohnung!"
+  row-done: "<green>{size}: {found}/{total} ✔"
+  claim: "🎁 Belohnungen abholen"
+  rewarded: "<gold>🖼 Album {size} vollständig: +{xp} XP."
+  group-complete: "<gold>🖼 Du hast alle {size}-Motive gesammelt! Öffne /vgallery album für deine Belohnung."
+  disabled: "<gray>Das Motiv-Album ist auf diesem Server ausgeschaltet."
+panel:
+  motifs: "Motive"
+  size: "Größe"
+  current: "Aktuelles Motiv"
+  apply: "Dieses Motiv aufhängen"
+  favourite: "Favorit"
+  lock-hint: "Nur du kannst das Gemälde ändern oder abbauen."
+  slideshow: "Diashow"
+  interval: "Intervall (Sekunden)"
+  next-interval: "Nächstes Intervall"
+  settings: "Einstellungen"
+  pick-motif: "Wähle ein Motiv aus, um Details zu sehen und es aufzuhängen."
+  empty: "Hier ist noch nichts."
+  open: "Ausstellung öffnen"
+  browse: "Durchsuchen"
+  paintings: "Gemälde"
+  location: "Standort"
+  remove: "Gemälde entfernen"
+  remove-confirm: "Dieses Gemälde aus der Ausstellung entfernen? Stimmen werden zurückgesetzt; das Gemälde bleibt in der Welt."
+  save: "Speichern"
+  votes: "Stimmen"

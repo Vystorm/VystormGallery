@@ -1,0 +1,13 @@
+title: 'Galleria'
+permission: vystormgallery.use
+pages:
+  - title: 'Scegliere un soggetto'
+    text: |
+      Guarda un quadro e scrivi /vgallery (o /gallery) per aprire il menu dei soggetti.
+  - title: 'Blocco e presentazione'
+    text: |
+      Blocca un quadro perché solo tu possa cambiarlo. Una presentazione cambia soggetto da sola, ad esempio ogni 30 secondi.
+  - title: 'Mostre'
+    text: |
+      Raccogli quadri in mostre che altri possono visitare e votare.
+      Scrivi /vgallery help per vedere tutti i comandi.

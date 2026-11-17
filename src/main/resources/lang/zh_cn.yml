@@ -1,0 +1,216 @@
+scroll-hint: "<gold>滚动鼠标滚轮浏览 <yellow>{count}</yellow> 种图案 <gray>– 右键保留"
+changed: "<gold>🖼 <yellow>{art}</yellow> <gray>{size} · {pos}/{total}"
+kept: "<green>已保留画：<yellow>{art}"
+ended: "<gray>画的选择已结束。"
+no-options: "<gray>此处没有其他合适的图案。"
+denied: "<red>你没有权限执行此操作。"
+reloaded: "<green>Vystorm Gallery 已重新加载（已知 {count} 种图案）。"
+usage: "<gray>/{label} [menu] | random | (图案名称) | lock | slideshow | reload | 撤销 | 播放列表"
+brush-lore: "<gray>图案：<yellow>{art}</yellow> – 右键一幅画以应用"
+brush-copied: "<green>画笔已存储 <yellow>{art}</yellow>。右键另一幅画以应用。"
+brush-empty: "<gray>手持画笔潜行 + 右键一幅画来复制它的图案。"
+does-not-fit: "<red>{art} 放不下这里。"
+look-at-painting: "<red>请看向一幅画（最远 6 格）。"
+menu-title: "图案（{count}）"
+menu-name: "<gold>{art}"
+menu-size: "<gray>{size} 格 – 点击挂上"
+menu-title-page: "图案（{count}）– 第 {page}/{pages} 页"
+menu-current: "<green>当前图案 <gray>（{size} 格）"
+menu-previous: "<yellow>« 第 {page}/{pages} 页"
+menu-next: "<yellow>第 {page}/{pages} 页 »"
+unknown-motif: "<red>此处没有图案 <yellow>{name}</yellow>。<gray>按 Tab 可补全名称。"
+locked: "<green>画已锁定。现在只有你能更改或破坏它。"
+unlocked: "<gray>画已解锁。"
+locked-by: "<red>这幅画已被 <yellow>{owner}</yellow> 锁定。"
+feature-off: "<gray>此功能在本服务器上已关闭。"
+slideshow-on: "<green>幻灯片已开始：每 <yellow>{time}</yellow> 更换一次图案。"
+slideshow-off: "<gray>幻灯片已停止。"
+slideshow-usage: "<gray>/{label} slideshow （秒数，例如 30 或 5m） | off"
+menu-lock: "<yellow>锁定画"
+menu-lock-lore: "<gray>点击：只有你能更改或破坏它"
+menu-locked: "<gold>已被 {owner} 锁定"
+menu-unlock-lore: "<gray>点击解锁"
+menu-locked-lore: "<gray>只有所有者才能解锁"
+menu-slideshow-off: "<yellow>开始幻灯片"
+menu-slideshow-off-lore: "<gray>左键：每 {time} 更换图案 · 右键：{next}"
+menu-slideshow-on: "<gold>幻灯片：每 {time}"
+menu-slideshow-on-lore: "<gray>左键：停止 · 右键：每 {next}"
+menu-name-favourite: "<gold>★ {art}"
+menu-favourite-add: "<gray>Shift+点击：设为收藏"
+menu-favourite-remove: "<yellow>★ 已收藏 <gray>– Shift+点击取消"
+favourite-added: "<gold>★ <yellow>{art}</yellow> 已收藏，会显示在图案菜单最前面。"
+favourite-removed: "<gray>{art} 已取消收藏。"
+favourite-full: "<red>最多只能收藏 {max} 个图案。"
+
+undo-empty: "<gray>这幅画没有可撤销的更改。请看向你最后更改的画。"
+undo-unavailable: "<red>当前设置不再允许使用之前的图案。"
+undo-restored: "<green>已恢复画作：<yellow>{art}"
+
+# 通过 Vystorm Core 提供的 /vgallery：每位玩家看到自己语言的说明、帮助和 Tab 补全。commands.vgallery 下的 "aliases"
+# 是额外的主命令（全服生效，由管理员在 Core 配置 commands.localized-aliases 中选择语言）；子命令的 "name" 和
+# "aliases" 在所有语言中都可使用，英文始终有效。
+playlist-empty: "<gray>没有播放列表：幻灯片使用所有允许的图案。"
+playlist-list: "<gold>播放列表（{count}）：<yellow>{motifs}"
+playlist-cleared: "<green>播放列表已清空。幻灯片重新使用所有允许的图案。"
+playlist-duplicate: "<gray>此图案已在播放列表中。"
+playlist-full: "<red>每个播放列表最多包含 {max} 个图案。"
+playlist-added: "<green>已将当前图案添加到播放列表末尾。"
+playlist-missing: "<gray>当前图案不在播放列表中。"
+playlist-removed: "<green>已移除当前图案。空列表使用所有允许的图案。"
+
+commands:
+  vgallery:
+    description: "画作：图案菜单、随机图案、按名称选择图案、锁定和幻灯片"
+    aliases: [画廊]
+    args:
+      motif: 图案
+    sub:
+      album:
+        name: album
+        aliases: []
+        description: "你的画作图鉴：按尺寸收集的画"
+      exhibitions:
+        name: exhibitions
+        aliases: []
+        description: "将画作组成展览并为喜爱的展览投票。"
+        args:
+          action: ACTION
+      menu:
+        name: 菜单
+        aliases: []
+        description: "你所看着的画的图案菜单"
+      random:
+        name: 随机
+        aliases: []
+        description: "随机换一幅适合墙面的图案"
+      undo:
+        name: 撤销
+        aliases: []
+        description: "撤销你对所看画作的最后一次图案更改"
+      lock:
+        name: 锁定
+        aliases: []
+        description: "锁定或解锁这幅画：只有你能更改或拆除它"
+      slideshow:
+        name: 幻灯片
+        aliases: []
+        description: "在画上开始或停止幻灯片（例如 30 或 5m；关 可停止）"
+        args:
+          interval: "秒数|关"
+      playlist:
+        name: 播放列表
+        aliases: []
+        description: "管理这幅画的幻灯片播放列表"
+        sub:
+          add:
+            name: 添加
+            aliases: []
+            description: "将当前图案添加到末尾"
+          remove:
+            name: 移除
+            aliases: []
+            description: "移除当前图案"
+          clear:
+            name: 清空
+            aliases: []
+            description: "重新使用所有图案"
+          first:
+            name: 置顶
+            aliases: []
+            description: "将当前图案移至开头"
+          last:
+            name: 置底
+            aliases: []
+            description: "将当前图案移至末尾"
+          list:
+            name: 查看
+            aliases: []
+            description: "查看保存的图案顺序"
+      reload:
+        name: 重载
+        aliases: []
+        description: "重新加载配置和语言文件"
+
+playlist-first: "<green>已将当前图案移至播放列表开头。"
+playlist-last: "<green>已将当前图案移至播放列表末尾。"
+
+# Free feature release: exhibitions
+exhibitions:
+  previous: "上一页"
+  next: "下一页"
+  name-prompt: "画展名称：1–24个英文字母、数字、_或-"
+  title: "画展"
+  description: "将画作组成展览并为喜爱的展览投票。"
+  create: "创建画展"
+  summary: "{count}幅画 · {votes}票"
+  public: "已公开"
+  private: "私人草稿"
+  title-prompt: "画展标题（最多64字）"
+  description-prompt: "说明（最多240字）"
+  loaded: "画作当前已加载"
+  unloaded: "画作未加载或已移除，显示已保存的信息"
+  remove-hint: "Shift点击移除；更换画作会清空票数"
+  view-hint: "前往这些坐标查看原作"
+  back: "返回画展列表"
+  add: "添加正在看的画作"
+  rename: "修改标题"
+  describe: "修改说明"
+  publish: "公开画展"
+  hide: "设为私人画展"
+  vote: "投票／撤回投票"
+  delete: "删除画展"
+  delete-confirm: "删除画展？画作本身不会改变。"
+  result-saved: "<green>画展已保存。"
+  result-missing: "<red>未找到画展。"
+  result-denied: "<red>你无权对该画展或画作执行此操作。"
+  result-invalid: "<red>名称或文本无效或重复，或没有可公开的画作。"
+  result-limit: "<red>上限：每位玩家10个画展，每展60幅画。"
+  result-unavailable: "<red>画展存储不可用，更改未保存。"
+  usage: "/vgallery exhibitions [create 名称 | open 名称 | add 名称 | title 名称 文本 | description 名称 文本 | caption 名称 文本 | tour 名称 | stop-tour | publish 名称 | hide 名称 | delete 名称]"
+  tour: "开始导览"
+  tour-started: "<gold>🧭 导览“{title}”开始：共 {count} 站。请跟随动作栏提示。/vgallery exhibitions stop-tour 可结束。"
+  tour-next: "<yellow>🧭 第 {number}/{total} 站：距离 {distance} 格（{x}, {y}, {z}）"
+  tour-world: "<yellow>🧭 第 {number}/{total} 站在世界 {world}。"
+  tour-stop: "<gold>🧭 第 {number}/{total} 站 – {motif}：<yellow>{caption}"
+  tour-stop-plain: "<gold>🧭 第 {number}/{total} 站 – {motif}"
+  tour-done: "<green>🧭 你完成了导览“{title}”。感谢参观！"
+  tour-reward: "<gold>🧭 导览奖励：+{xp} 经验。"
+  tour-stopped: "<gray>🧭 导览已结束。"
+  tour-none: "<gray>你没有在导览中。"
+  tour-too-short: "<red>导览至少需要两幅画。"
+  tour-disabled: "<gray>本服务器已关闭导览。"
+  caption-set: "<green>该站的说明已保存。"
+  caption-cleared: "<green>说明已移除。"
+  caption-not-in: "<red>这幅画不属于该展览。"
+album:
+  title: "🖼 画作图鉴"
+  close: "关闭"
+  intro: "你已挂出 {found}/{total} 种画。集齐某一尺寸的全部画作即可获得奖励。"
+  row: "<gray>{size}：{found}/{total}"
+  row-ready: "<gold>{size}：{found}/{total}——已集齐，领取奖励吧！"
+  row-done: "<green>{size}：{found}/{total} ✔"
+  claim: "🎁 领取奖励"
+  rewarded: "<gold>🖼 图鉴 {size} 已集齐：+{xp} 经验。"
+  group-complete: "<gold>🖼 你已集齐所有 {size} 画作！打开 /vgallery album 领取奖励。"
+  disabled: "<gray>本服务器已关闭画作图鉴。"
+panel:
+  motifs: "图案"
+  size: "尺寸"
+  current: "当前图案"
+  apply: "挂上此图案"
+  favourite: "收藏"
+  lock-hint: "只有你可以更改或拆除这幅画。"
+  slideshow: "幻灯片"
+  interval: "间隔（秒）"
+  next-interval: "下一个间隔"
+  settings: "设置"
+  pick-motif: "选择图案以查看详情并挂上它。"
+  empty: "这里还没有内容。"
+  open: "打开展览"
+  browse: "浏览"
+  paintings: "画作"
+  location: "位置"
+  remove: "移除画作"
+  remove-confirm: "将此画作从展览中移除？投票将重置，画作仍保留在世界中。"
+  save: "保存"
+  votes: "投票"

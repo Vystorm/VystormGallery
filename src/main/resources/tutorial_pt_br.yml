@@ -1,0 +1,13 @@
+title: 'Galeria'
+permission: vystormgallery.use
+pages:
+  - title: 'Escolher um motivo'
+    text: |
+      Olhe para uma pintura e digite /vgallery (ou /gallery) para abrir o menu de motivos.
+  - title: 'Trava e apresentação'
+    text: |
+      Trave uma pintura para que só você possa mudá-la. Uma apresentação troca o motivo sozinha, por exemplo a cada 30 segundos.
+  - title: 'Exposições'
+    text: |
+      Reúna pinturas em exposições que outros podem visitar e votar.
+      Digite /vgallery help para ver todos os comandos.

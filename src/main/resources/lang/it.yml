@@ -1,0 +1,212 @@
+# Italiano — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+scroll-hint: <gold>Scorrere per sfogliare <yellow>{count}</yellow> motivi <gray>– fare clic con il tasto destro per mantenere
+changed: <gold>🖼 <yellow>{art}</yellow> <gray>{size} · {pos}/{total}
+kept: '<green>Pittura tenuta: <yellow>{art}'
+ended: <gray>La selezione di pittura è finita.
+no-options: <gray>Nessun altro motivo si adatta qui.
+denied: <red>Ti manca il permesso.
+reloaded: <green>Vystorm Galleria ricaricata ({count} motivi conosciuti).
+usage: <gray>/{label} [menu] | random | (nome motif) | lock | slideshow | reload | undo | playlist
+brush-lore: '<gray>Motif: <yellow>{art}</yellow> – fare clic con il pulsante destro del mouse su un dipinto da applicare'
+brush-copied: <green>Destinazioni del pennello <yellow>{art}</yellow>. Fare clic con il pulsante destro del mouse su un altro
+  dipinto per applicarlo.
+brush-empty: <gray>Sneak + fare clic con il pulsante destro del mouse su un dipinto con il pennello per raccogliere il suo
+  motivo.
+does-not-fit: <red>{art} non si adatta qui.
+look-at-painting: <red>Guarda un dipinto (max. 6 blocchi).
+menu-title: Motifs ({count})
+menu-name: <gold>{art}
+menu-size: <gray>{size} blocchi – clicca per appendere
+menu-title-page: Motifs ({count}) – pagina {page}/{pages}
+menu-current: <green>Motivo attuale <gray>({size} blocchi)
+menu-previous: <yellow>« {page}/{pages}
+menu-next: <yellow>{page}/{pages} »
+unknown-motif: <red>Nessun motivo <yellow>{name}</yellow> Qui. <gray>La scheda completa i nomi.
+locked: <green>Pittura chiusa. Solo tu puoi cambiarlo o spezzarlo ora.
+unlocked: <gray>Dipingere sbloccato.
+locked-by: <red>Questo dipinto è bloccato da <yellow>{owner}</yellow>.
+feature-off: <gray>Questa funzione è disattivata su questo server.
+slideshow-on: '<green>Slideshow iniziato: un nuovo motivo ogni <yellow>{time}</yellow>.'
+slideshow-off: <gray>Slideshow si e' fermato.
+slideshow-usage: <gray>/{label} slideshow (secondi, e.g. 30 o 5m)
+menu-lock: <yellow>Blocco pittura
+menu-lock-lore: '<gray>Clicca: solo tu puoi cambiarlo o romperlo'
+menu-locked: <gold>Bloccato da {owner}
+menu-unlock-lore: <gray>Clicca per sbloccare
+menu-locked-lore: <gray>Solo il proprietario può sbloccarlo
+menu-slideshow-off: <yellow>Avviare la presentazione
+menu-slideshow-off-lore: '<gray>Clicca a sinistra: nuovo motivo ogni {time} · tasto destro del mouse: {next}'
+menu-slideshow-on: '<gold>Slideshow: ogni {time}'
+menu-slideshow-on-lore: '<gray>Clicca a sinistra: stop · click destro: ogni {next}'
+menu-name-favourite: <gold>★ {art}
+menu-favourite-add: '<gray>Shift-click: segnare come preferito'
+menu-favourite-remove: <yellow>★ Preferito <gray>– fare clic sul cambio per rimuovere
+favourite-added: <gold>★ <yellow>{art}</yellow> è ora un favorito – mostrato prima nel menu del motivo.
+favourite-removed: <gray>{art} non è più un favorito.
+favourite-full: <red>Al massimo {max} motivi preferiti.
+undo-empty: <gray>Non c'è nessun cambiamento da annullare su questo dipinto. Guarda il dipinto che hai cambiato l'ultima volta.
+undo-unavailable: <red>Il motivo precedente non è più consentito dalle impostazioni attuali.
+undo-restored: '<green>Pittura restaurata: <yellow>{art}'
+playlist-empty: '<gray>Nessuna playlist: la presentazione utilizza tutti i motivi consentiti.'
+playlist-list: '<gold>Playlist ({count}): <yellow>{motifs}'
+playlist-cleared: <green>La lista dei giochi è stata cancellata. La presentazione utilizza di nuovo tutti i motivi consentiti.
+playlist-duplicate: <gray>Questo motivo è già nella playlist.
+playlist-full: <red>Al massimo {max} motivi per playlist.
+playlist-added: <green>Il motivo attuale allegato alla playlist.
+playlist-missing: <gray>Il motivo attuale non è nella playlist.
+playlist-removed: <green>Il motivo attuale è stato rimosso. Una playlist vuota utilizza tutti i motivi consentiti.
+commands:
+  vgallery:
+    description: 'Dipinti: menu motivo, motivo casuale, motivo per nome, blocco e presentazione'
+    aliases: []
+    args:
+      motif: MOTIF
+    sub:
+      album:
+        name: album
+        aliases: []
+        description: "Il tuo album di motivi: dipinti raccolti per dimensione"
+      exhibitions:
+        name: exhibitions
+        aliases: []
+        description: "Riunisci dipinti in mostre e vota le tue preferite."
+        args:
+          action: ACTION
+      menu:
+        name: menu
+        aliases: []
+        description: Menù Motif del dipinto si guarda
+      random:
+        name: random
+        aliases: []
+        description: Un motivo casuale che si adatta al muro
+      undo:
+        name: undo
+        aliases: []
+        description: Annulla il tuo ultimo cambiamento di motivo sul dipinto che guardi
+      lock:
+        name: lock
+        aliases: []
+        description: 'Bloccare o sbloccare il dipinto: solo si può cambiare o romperlo'
+      slideshow:
+        name: slideshow
+        aliases: []
+        description: Avviare o fermare una presentazione sul dipinto (e.g. 30 o 5m; fuori lo ferma)
+        args:
+          interval: SECONDS
+      playlist:
+        name: playlist
+        aliases: []
+        description: Gestisci la playlist di slideshow di questo dipinto
+        sub:
+          add:
+            name: add
+            aliases: []
+            description: Appendere il motivo attuale
+          remove:
+            name: remove
+            aliases: []
+            description: Rimuovere il motivo attuale
+          clear:
+            name: clear
+            aliases: []
+            description: Utilizzare tutti i motivi di nuovo
+          first:
+            name: first
+            aliases: []
+            description: Spostare il motivo attuale all'inizio
+          last:
+            name: last
+            aliases: []
+            description: Spostare il motivo attuale alla fine
+          list:
+            name: list
+            aliases: []
+            description: Mostra l'ordine del motivo salvato
+      reload:
+        name: reload
+        aliases: []
+        description: Ricarica file di configurazione e lingua
+playlist-first: <green>Il motivo attuale si è spostato all'inizio della playlist.
+playlist-last: <green>Il motivo attuale si è spostato alla fine della playlist.
+
+# Free feature release: exhibitions
+exhibitions:
+  previous: "Pagina precedente"
+  next: "Pagina successiva"
+  name-prompt: "Nome della mostra: 1–24 lettere, numeri, _ o -"
+  title: "Mostre di dipinti"
+  description: "Riunisci dipinti in mostre e vota le tue preferite."
+  create: "Crea mostra"
+  summary: "{count} dipinti · {votes} voti"
+  public: "Pubblicata"
+  private: "Bozza privata"
+  title-prompt: "Titolo della mostra (massimo 64 caratteri)"
+  description-prompt: "Descrizione (massimo 240 caratteri)"
+  loaded: "Dipinto attualmente caricato"
+  unloaded: "Dipinto non caricato o rimosso; informazioni salvate"
+  remove-hint: "Maiusc-clic: rimuovi; cambiare dipinti azzera i voti"
+  view-hint: "Visita queste coordinate per vedere l’originale"
+  back: "Torna alle mostre"
+  add: "Aggiungi il dipinto che stai guardando"
+  rename: "Modifica titolo"
+  describe: "Modifica descrizione"
+  publish: "Pubblica mostra"
+  hide: "Rendi la mostra privata"
+  vote: "Vota / ritira il voto"
+  delete: "Elimina mostra"
+  delete-confirm: "Eliminare la mostra? I dipinti rimangono invariati."
+  result-saved: "<green>Mostra salvata."
+  result-missing: "<red>Mostra non trovata."
+  result-denied: "<red>Azione non consentita su questa mostra o dipinto."
+  result-invalid: "<red>Nome/testo non valido o duplicato, oppure nessun dipinto da pubblicare."
+  result-limit: "<red>Limite: 10 mostre per giocatore, 60 dipinti per mostra."
+  result-unavailable: "<red>Archivio non disponibile; modifiche non salvate."
+  usage: "/vgallery exhibitions [create NOME | open NOME | add NOME | title NOME TESTO | description NOME TESTO | caption NOME TESTO | tour NOME | stop-tour | publish NOME | hide NOME | delete NOME]"
+  tour: "Avvia la visita guidata"
+  tour-started: "<gold>🧭 Visita «{title}» avviata: {count} tappe. Segui la barra azioni. /vgallery exhibitions stop-tour la termina."
+  tour-next: "<yellow>🧭 Tappa {number}/{total}: a {distance} blocchi ({x}, {y}, {z})"
+  tour-world: "<yellow>🧭 La tappa {number}/{total} è nel mondo {world}."
+  tour-stop: "<gold>🧭 Tappa {number}/{total} – {motif}: <yellow>{caption}"
+  tour-stop-plain: "<gold>🧭 Tappa {number}/{total} – {motif}"
+  tour-done: "<green>🧭 Hai completato la visita «{title}». Grazie della visita!"
+  tour-reward: "<gold>🧭 Ricompensa: +{xp} XP."
+  tour-stopped: "<gray>🧭 La visita è terminata."
+  tour-none: "<gray>Non sei in nessuna visita."
+  tour-too-short: "<red>Una visita richiede almeno due dipinti."
+  tour-disabled: "<gray>Le visite guidate sono disattivate su questo server."
+  caption-set: "<green>Testo della tappa salvato."
+  caption-cleared: "<green>Testo rimosso."
+  caption-not-in: "<red>Questo dipinto non fa parte di quella mostra."
+album:
+  title: "🖼 Album dei motivi"
+  close: "Chiudi"
+  intro: "Hai appeso {found} motivi su {total}. Completa un’intera dimensione per una ricompensa."
+  row: "<gray>{size}: {found}/{total}"
+  row-ready: "<gold>{size}: {found}/{total} – completo, ritira la ricompensa!"
+  row-done: "<green>{size}: {found}/{total} ✔"
+  claim: "🎁 Ritira ricompense"
+  rewarded: "<gold>🖼 Album {size} completo: +{xp} XP."
+  group-complete: "<gold>🖼 Hai raccolto tutti i motivi {size}! Apri /vgallery album per la ricompensa."
+  disabled: "<gray>L’album dei motivi è disattivato su questo server."
+panel:
+  motifs: "Motivi"
+  size: "Dimensioni"
+  current: "Motivo attuale"
+  apply: "Appendi questo motivo"
+  favourite: "Preferito"
+  lock-hint: "Solo tu puoi modificare o rimuovere il quadro."
+  slideshow: "Presentazione"
+  interval: "Intervallo (secondi)"
+  next-interval: "Intervallo successivo"
+  settings: "Impostazioni"
+  pick-motif: "Seleziona un motivo per vederne i dettagli e appenderlo."
+  empty: "Non c’è ancora nulla."
+  open: "Apri la mostra"
+  browse: "Esplora"
+  paintings: "Quadri"
+  location: "Posizione"
+  remove: "Rimuovi il quadro"
+  remove-confirm: "Rimuovere questo quadro dalla mostra? I voti verranno azzerati; il quadro rimarrà nel mondo."
+  save: "Salva"
+  votes: "Voti"

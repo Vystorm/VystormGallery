@@ -1,0 +1,216 @@
+scroll-hint: "<gold>Scroll to flip through <yellow>{count}</yellow> motifs <gray>– right-click to keep"
+changed: "<gold>🖼 <yellow>{art}</yellow> <gray>{size} · {pos}/{total}"
+kept: "<green>Painting kept: <yellow>{art}"
+ended: "<gray>Painting selection ended."
+no-options: "<gray>No other motif fits here."
+denied: "<red>You lack permission for this."
+reloaded: "<green>Vystorm Gallery reloaded ({count} motifs known)."
+usage: "<gray>/{label} [menu] | random | (motif name) | lock | slideshow | reload | undo | playlist"
+brush-lore: "<gray>Motif: <yellow>{art}</yellow> – right-click a painting to apply"
+brush-copied: "<green>Brush holds <yellow>{art}</yellow>. Right-click another painting to apply it."
+brush-empty: "<gray>Sneak + right-click a painting with the brush to pick up its motif."
+does-not-fit: "<red>{art} does not fit here."
+look-at-painting: "<red>Look at a painting (max. 6 blocks)."
+menu-title: "Motifs ({count})"
+menu-name: "<gold>{art}"
+menu-size: "<gray>{size} blocks – click to hang"
+menu-title-page: "Motifs ({count}) – page {page}/{pages}"
+menu-current: "<green>Current motif <gray>({size} blocks)"
+menu-previous: "<yellow>« Page {page}/{pages}"
+menu-next: "<yellow>Page {page}/{pages} »"
+unknown-motif: "<red>No motif <yellow>{name}</yellow> here. <gray>Tab completes the names."
+locked: "<green>Painting locked. Only you can change or break it now."
+unlocked: "<gray>Painting unlocked."
+locked-by: "<red>This painting is locked by <yellow>{owner}</yellow>."
+feature-off: "<gray>This feature is turned off on this server."
+slideshow-on: "<green>Slideshow started: a new motif every <yellow>{time}</yellow>."
+slideshow-off: "<gray>Slideshow stopped."
+slideshow-usage: "<gray>/{label} slideshow (seconds, e.g. 30 or 5m) | off"
+menu-lock: "<yellow>Lock painting"
+menu-lock-lore: "<gray>Click: only you can change or break it"
+menu-locked: "<gold>Locked by {owner}"
+menu-unlock-lore: "<gray>Click to unlock"
+menu-locked-lore: "<gray>Only the owner can unlock it"
+menu-slideshow-off: "<yellow>Start slideshow"
+menu-slideshow-off-lore: "<gray>Left-click: new motif every {time} · right-click: {next}"
+menu-slideshow-on: "<gold>Slideshow: every {time}"
+menu-slideshow-on-lore: "<gray>Left-click: stop · right-click: every {next}"
+menu-name-favourite: "<gold>★ {art}"
+menu-favourite-add: "<gray>Shift-click: mark as favourite"
+menu-favourite-remove: "<yellow>★ Favourite <gray>– shift-click to remove"
+favourite-added: "<gold>★ <yellow>{art}</yellow> is now a favourite – shown first in the motif menu."
+favourite-removed: "<gray>{art} is no longer a favourite."
+favourite-full: "<red>At most {max} favourite motifs."
+
+undo-empty: "<gray>No change to undo on this painting. Look at the painting you last changed."
+undo-unavailable: "<red>The previous motif is no longer allowed by the current settings."
+undo-restored: "<green>Restored painting: <yellow>{art}"
+
+# /vgallery through Vystorm Core: description, help and tab completion per player. "aliases" under commands.vgallery
+# are extra root commands (server-wide, the admin chooses which languages: Core config commands.localized-aliases);
+# "name" and "aliases" of a subcommand are accepted in every language, English always works.
+playlist-empty: "<gray>No playlist: the slideshow uses all allowed motifs."
+playlist-list: "<gold>Playlist ({count}): <yellow>{motifs}"
+playlist-cleared: "<green>Playlist cleared. The slideshow uses all allowed motifs again."
+playlist-duplicate: "<gray>This motif is already in the playlist."
+playlist-full: "<red>At most {max} motifs per playlist."
+playlist-added: "<green>Current motif appended to the playlist."
+playlist-missing: "<gray>The current motif is not in the playlist."
+playlist-removed: "<green>Current motif removed. An empty playlist uses all allowed motifs."
+
+commands:
+  vgallery:
+    description: "Paintings: motif menu, random motif, motif by name, lock and slideshow"
+    aliases: []
+    args:
+      motif: MOTIF
+    sub:
+      album:
+        name: album
+        aliases: []
+        description: "Your motif album: collected paintings by size"
+      exhibitions:
+        name: exhibitions
+        aliases: []
+        description: "Collect paintings into exhibitions and vote for your favourites."
+        args:
+          action: ACTION
+      menu:
+        name: menu
+        aliases: []
+        description: "Motif menu of the painting you look at"
+      random:
+        name: random
+        aliases: []
+        description: "A random motif that fits the wall"
+      undo:
+        name: undo
+        aliases: []
+        description: "Undo your last motif change on the painting you look at"
+      lock:
+        name: lock
+        aliases: []
+        description: "Lock or unlock the painting: only you can change or break it"
+      slideshow:
+        name: slideshow
+        aliases: []
+        description: "Start or stop a slideshow on the painting (e.g. 30 or 5m; off stops it)"
+        args:
+          interval: "SECONDS|off"
+      playlist:
+        name: playlist
+        aliases: []
+        description: "Manage this painting's slideshow playlist"
+        sub:
+          add:
+            name: add
+            aliases: []
+            description: "Append the current motif"
+          remove:
+            name: remove
+            aliases: []
+            description: "Remove the current motif"
+          clear:
+            name: clear
+            aliases: []
+            description: "Use all motifs again"
+          first:
+            name: first
+            aliases: []
+            description: "Move the current motif to the start"
+          last:
+            name: last
+            aliases: []
+            description: "Move the current motif to the end"
+          list:
+            name: list
+            aliases: []
+            description: "Show the saved motif order"
+      reload:
+        name: reload
+        aliases: []
+        description: "Reload config and language files"
+
+playlist-first: "<green>Current motif moved to the start of the playlist."
+playlist-last: "<green>Current motif moved to the end of the playlist."
+
+# Free feature release: exhibitions
+exhibitions:
+  previous: "Previous page"
+  next: "Next page"
+  name-prompt: "Exhibition name: 1–24 letters, numbers, _ or -"
+  title: "Painting exhibitions"
+  description: "Collect paintings into exhibitions and vote for your favourites."
+  create: "Create exhibition"
+  summary: "{count} paintings · {votes} votes"
+  public: "Published"
+  private: "Private draft"
+  title-prompt: "Exhibition title (64 characters maximum)"
+  description-prompt: "Description (240 characters maximum)"
+  loaded: "Painting is currently loaded"
+  unloaded: "Painting is unloaded or no longer present; showing saved information"
+  remove-hint: "Shift-click: remove; changing paintings resets votes"
+  view-hint: "Visit these coordinates to see the original painting"
+  back: "Back to exhibitions"
+  add: "Add the painting you are looking at"
+  rename: "Edit title"
+  describe: "Edit description"
+  publish: "Publish exhibition"
+  hide: "Make exhibition private"
+  vote: "Vote / withdraw your vote"
+  delete: "Delete exhibition"
+  delete-confirm: "Delete the exhibition? The paintings themselves remain unchanged."
+  result-saved: "<green>Exhibition saved."
+  result-missing: "<red>Exhibition not found."
+  result-denied: "<red>You cannot perform this action on this exhibition or painting."
+  result-invalid: "<red>Invalid or duplicate name/text, or no paintings to publish."
+  result-limit: "<red>Limit: 10 exhibitions per player, 60 paintings per exhibition."
+  result-unavailable: "<red>Exhibition storage is unavailable; changes were not saved."
+  usage: "/vgallery exhibitions [create NAME | open NAME | add NAME | title NAME TEXT | description NAME TEXT | caption NAME TEXT | tour NAME | stop-tour | publish NAME | hide NAME | delete NAME]"
+  tour: "Start the guided tour"
+  tour-started: "<gold>🧭 Tour \"{title}\" started: {count} stops. Follow the action bar. /vgallery exhibitions stop-tour ends it."
+  tour-next: "<yellow>🧭 Stop {number}/{total}: {distance} blocks away ({x}, {y}, {z})"
+  tour-world: "<yellow>🧭 Stop {number}/{total} is in the world {world}."
+  tour-stop: "<gold>🧭 Stop {number}/{total} – {motif}: <yellow>{caption}"
+  tour-stop-plain: "<gold>🧭 Stop {number}/{total} – {motif}"
+  tour-done: "<green>🧭 You finished the tour \"{title}\". Thanks for visiting!"
+  tour-reward: "<gold>🧭 Tour reward: +{xp} XP."
+  tour-stopped: "<gray>🧭 The tour has ended."
+  tour-none: "<gray>You are not on a tour."
+  tour-too-short: "<red>A tour needs at least two paintings."
+  tour-disabled: "<gray>Guided tours are switched off on this server."
+  caption-set: "<green>Caption saved for this tour stop."
+  caption-cleared: "<green>Caption removed."
+  caption-not-in: "<red>This painting is not part of that exhibition."
+album:
+  title: "🖼 Motif album"
+  close: "Close"
+  intro: "You have hung {found} of {total} motifs. Collect a whole size group for a reward."
+  row: "<gray>{size}: {found}/{total}"
+  row-ready: "<gold>{size}: {found}/{total} – complete, collect your reward!"
+  row-done: "<green>{size}: {found}/{total} ✔"
+  claim: "🎁 Collect rewards"
+  rewarded: "<gold>🖼 Album {size} complete: +{xp} XP."
+  group-complete: "<gold>🖼 You collected every {size} motif! Open /vgallery album for your reward."
+  disabled: "<gray>The motif album is switched off on this server."
+panel:
+  motifs: "Motifs"
+  size: "Size"
+  current: "Current motif"
+  apply: "Hang this motif"
+  favourite: "Favourite"
+  lock-hint: "Only you can change or break the painting."
+  slideshow: "Slideshow"
+  interval: "Interval (seconds)"
+  next-interval: "Next interval"
+  settings: "Settings"
+  pick-motif: "Select a motif to see its details and hang it."
+  empty: "Nothing here yet."
+  open: "Open exhibition"
+  browse: "Browse"
+  paintings: "Paintings"
+  location: "Location"
+  remove: "Remove painting"
+  remove-confirm: "Remove this painting from the exhibition? Votes will be reset; the painting remains in the world."
+  save: "Save"
+  votes: "Votes"
