@@ -71,11 +71,35 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
     private GalleryPanels galleryPanels;
     /** True while {@link #mayInteract} asks the protection plugins, so our own click handlers stay out of it. */
     private boolean probing;
+    private ExhibitionStore exhibitionStore;
+    /** Every feature switch as read in load(); null (= all on) until then and in tests that build the plugin by hand. */
+    private Feature.Switches switches;
+
+    /** Minimum Vystorm Core: placeholders through api.placeholders(). */
+    static final String MIN_CORE = "0.65.0";
+
+    /** Whether a feature (and gallery.enabled) is on; static so menus and mocked plugins in tests read the real field. */
+    static boolean enabled(GalleryPlugin plugin, Feature feature) {
+        Feature.Switches current = plugin == null ? null : plugin.switches;
+        return current == null || current.on(feature);
+    }
+
+    private boolean on(Feature feature) { return enabled(this, feature); }
+
+    /** True (and the shared off message sent) when one of the features is switched off. */
+    private boolean off(CommandSender sender, Feature... features) {
+        for (Feature feature : features) {
+            if (on(feature)) continue;
+            lang.send(sender, "feature-off");
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void onEnable() {
-        if (!CoreApi.atLeast("0.64.0")) {
-            getLogger().severe("Vystorm Core 0.64.0 or newer is required; please update Core first.");
+        if (!CoreApi.atLeast(MIN_CORE)) {
+            getLogger().severe("Vystorm Core " + MIN_CORE + " or newer is required; please update Core first.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -84,8 +108,9 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
         core.admin().updates().spigot(this, 140049);
         if (!PaintingCompat.access().previews()) getLogger().info("Painting previews unavailable: using ordinary painting icons and readable motif names on this server.");
         saveDefaultConfig();
-        lang = core.lang().register(this); try { core.registerTutorial(this); } catch (RuntimeException noTutorial) { getLogger().fine("Tutorial not registered: " + noTutorial); }
-        ExhibitionStore exhibitionStore = new ExhibitionStore(getDataFolder().toPath().resolve("exhibitions.yml"), getLogger(), core.data().files());
+        lang = core.lang().register(this);
+        registerTutorial();
+        exhibitionStore = new ExhibitionStore(getDataFolder().toPath().resolve("exhibitions.yml"), getLogger(), core.data().files());
         tours = new GuidedTours(this, core.data().files(), exhibitionStore, getDataFolder().toPath().resolve("tours.yml"));
         exhibitions = new Exhibitions(this, core, exhibitionStore);
         brushKey = new org.bukkit.NamespacedKey(this, "motif");
@@ -103,7 +128,7 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
             galleryPanels = GalleryPanels.register(this, core, exhibitions, exhibitionStore);
         } catch (RuntimeException failure) { getLogger().fine("Panels unavailable; using chest menus: " + failure); }
         if (galleryPanels == null) core.gui().registerMenu(this, "exhibitions", lang.ref("exhibitions.title"), Material.PAINTING,
-                p -> p.hasPermission("vystormgallery.use"), p -> exhibitions.list(p, 0),
+                p -> on(Feature.EXHIBITIONS) && p.hasPermission("vystormgallery.use"), p -> exhibitions.list(p, 0),
                 Vystorm.vystorm_core._uiMethods.menu.MenuCategory.COMMUNITY.group(), lang.ref("exhibitions.description"));
         getServer().getPluginManager().registerEvents(slideshow, this);
         handleSharedEvents(core.priority().stages());
@@ -113,7 +138,41 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
         tasks.timer(20L, 20L, slideshow::tick);
         tasks.timer(10L, 10L, tours::tick);
         core.settings().config().register(this, "config.yml", this::load);
+        declareSwitches();
+        try { registerPlaceholders(core.placeholders()); }
+        catch (RuntimeException failure) { getLogger().log(java.util.logging.Level.WARNING, "Placeholders not registered", failure); }
+        registerCommands();
+    }
+
+    /** The tutorial in /vmenu unless tutorial.enabled is false; read once, because Core lists tutorials when a plugin starts. */
+    void registerTutorial() {
+        if (!getConfig().getBoolean(Feature.TUTORIAL.path, true)) return;
+        try { core.registerTutorial(this); } catch (RuntimeException noTutorial) { getLogger().fine("Tutorial not registered: " + noTutorial); }
+    }
+
+    /** Every switch in /vadmin features with its one-line description in the admin's language. */
+    private void declareSwitches() {
+        var config = core.settings().config();
+        for (Feature feature : Feature.values()) {
+            config.feature(this, feature.path, null, lang.ref(feature.description()));
+            if (feature.needsRestart()) config.activation(this, feature.path, Vystorm.vystorm_core._uiMethods.settings.SettingPolicy.Activation.RESTART);
+        }
+    }
+
+    /** Registers /vgallery once; the subcommands of switched-off features stay out of help and tab completion (asked live). */
+    private void registerCommands() {
         core.command().register(this, lang, commandSpec(this));
+    }
+
+    /** The namespace {@code gallery}: album, exhibitions and tours (server thread; empty while switched off). */
+    void registerPlaceholders(Vystorm.vystorm_core._advancedMethods.placeholderHandler.PlaceholderInterface registry) {
+        GalleryPlaceholders.register(registry, this, new GalleryPlaceholders.Source() {
+            @Override public boolean on(Feature feature) { return GalleryPlugin.this.on(feature); }
+            @Override public MotifAlbum album(Player player) { return GalleryPlugin.this.album(player); }
+            @Override public List<Cycle.Variant> motifs() { return all(); }
+            @Override public java.util.Collection<ExhibitionStore.Exhibition> exhibitions() { return exhibitionStore == null ? List.of() : exhibitionStore.all(); }
+            @Override public boolean touring(Player player) { return tours != null && tours.touring(player); }
+        }, key -> lang == null ? key : lang.ref(key));
     }
 
     @Override
@@ -128,21 +187,43 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
 
     private void load() {
         reloadConfig();
+        Feature.Switches before = switches;
+        switches = Feature.Switches.read(getConfig());
         if (lang != null) lang.reload();
-        mode = "same-size".equalsIgnoreCase(getConfig().getString("mode", "fit")) ? Cycle.Mode.SAME_SIZE : Cycle.Mode.FIT;
-        Set<String> keys = new HashSet<>();
-        for (String key : getConfig().getStringList("excluded")) keys.add(Cycle.key(key));
-        excluded = Set.copyOf(keys);
+        mode = mode(getConfig().getString("mode", "fit"), switches);
+        excluded = excluded(getConfig().getStringList("excluded"), switches);
         timeoutMillis = Math.max(3, getConfig().getInt("scroll-timeout-seconds", 20)) * 1000L;
         double distance = getConfig().getDouble("max-distance", 8);
         maxDistance = Double.isFinite(distance) ? Math.max(2, distance) : 8; // NaN/Infinity would disable every distance check
-        sneakFlip = getConfig().getBoolean("sneak-click-flips", true);
-        sound = getConfig().getBoolean("sound", true);
-        selectOnPlace = getConfig().getBoolean("select-on-place", true);
-        brush = getConfig().getBoolean("brush", true);
-        favouritesOn = getConfig().getBoolean("favourites", true);
+        sneakFlip = on(Feature.SNEAK_FLIP);
+        sound = on(Feature.SOUND);
+        selectOnPlace = on(Feature.SELECT_ON_PLACE) && on(Feature.SCROLL);
+        brush = on(Feature.BRUSH);
+        favouritesOn = on(Feature.FAVOURITES);
         lock.load(getConfig().getConfigurationSection("lock"));
+        lock.switches(on(Feature.LOCK), on(Feature.LOCK_BREAK), on(Feature.LOCK_EXPLOSIONS));
         slideshow.load(getConfig().getConfigurationSection("slideshow"));
+        slideshow.enabled(on(Feature.SLIDESHOW));
+        if (!on(Feature.SCROLL)) sessions.clear();
+        if (tours != null && !tours.enabled()) tours.endAll();
+        // help and tab completion ask the switches live; only send online players their command list again
+        if (before != null && !before.equals(switches)) {
+            try { core.command().refresh(); }
+            catch (RuntimeException failure) { getLogger().log(java.util.logging.Level.WARNING, "Command list not sent again", failure); }
+        }
+    }
+
+    /** The configured size mode; resize.enabled off means same-size, whatever mode says. */
+    static Cycle.Mode mode(String configured, Feature.Switches switches) {
+        return !switches.on(Feature.RESIZE) || "same-size".equalsIgnoreCase(configured) ? Cycle.Mode.SAME_SIZE : Cycle.Mode.FIT;
+    }
+
+    /** The excluded motif keys; excluded-motifs.enabled off means none. */
+    static Set<String> excluded(List<String> configured, Feature.Switches switches) {
+        if (!switches.on(Feature.EXCLUDED)) return Set.of();
+        Set<String> keys = new HashSet<>();
+        for (String key : configured) keys.add(Cycle.key(key));
+        return Set.copyOf(keys);
     }
 
     static Registry<Art> arts() { return PaintingCompat.access().arts(); }
@@ -166,7 +247,9 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
     /** Stage ACT, registered in {@link #handleSharedEvents}. */
     public void onClick(PlayerInteractEntityEvent event) {
         if (probing || event.getHand() != EquipmentSlot.HAND || !(event.getRightClicked() instanceof Painting painting)) return;
+        if (!on(Feature.GALLERY)) return; // gallery.enabled off: paintings behave as in vanilla
         Player player = event.getPlayer();
+        if (!(player.isSneaking() && sneakFlip) && !on(Feature.SCROLL)) return; // scroll-mode.enabled off: no scroll session
         if (!player.getInventory().getItemInMainHand().getType().isAir() || player.getGameMode() == GameMode.SPECTATOR) return;
         if (!player.hasPermission("vystormgallery.use")) return;
         event.setCancelled(true);
@@ -196,6 +279,7 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
         Session session = sessions.get(player.getUniqueId());
         if (session == null) return;
+        if (!on(Feature.SCROLL)) { sessions.remove(player.getUniqueId()); return; }
         int direction = Cycle.scroll(event.getPreviousSlot(), event.getNewSlot());
         if (direction == 0) { sessions.remove(player.getUniqueId()); return; }
         Entity entity = core.compat().platform().getEntity(player.getWorld(), session.painting());
@@ -384,6 +468,7 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
 
     boolean mayInteract(Player player, Painting painting) {
         if (!eligible(player, painting)) return false; // never fire a probe event for an ineligible actor
+        if (!on(Feature.PROTECTION_CHECK)) return true; // protection-check.enabled off: protection plugins are not asked
         probing = true;
         try {
             HandlerList.unregisterAll(sealer);
@@ -407,7 +492,7 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
     void advance(Painting painting, Cycle.Mode slideMode, boolean shuffle, boolean playSound) {
         Art currentArt = painting.getArt();
         List<Cycle.Variant> list = new ArrayList<>(Cycle.candidates(all(), variant(currentArt), slideMode == null ? mode : slideMode, excluded));
-        list = new ArrayList<>(SlideshowPlaylist.candidates(list, playlist.read(painting), excluded));
+        if (on(Feature.PLAYLISTS)) list = new ArrayList<>(SlideshowPlaylist.candidates(list, playlist.read(painting), excluded));
         int index = -1;
         for (int i = 0; i < list.size(); i++) if (list.get(i).key().equals(variant(currentArt).key())) index = i;
         if (shuffle) { if (index >= 0) list.remove(index); java.util.Collections.shuffle(list); index = -1; }
@@ -507,14 +592,14 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
         List<Cycle.Variant> list = Cycle.candidates(all(), variant(art), mode, excluded);
         int position = 1;
         for (int i = 0; i < list.size(); i++) if (list.get(i).key().equals(variant(art).key())) position = i + 1;
-        core.compat().platform().sendActionBar(player, lang.component(player, "changed", "art", title(art), "pos", Integer.toString(position), "total", Integer.toString(list.size()),
+        if (on(Feature.ACTION_BAR)) core.compat().platform().sendActionBar(player, lang.component(player, "changed", "art", title(art), "pos", Integer.toString(position), "total", Integer.toString(list.size()),
                 "size", PaintingCompat.access().width(art) + "×" + PaintingCompat.access().height(art)));
         return true;
     }
 
     // ---- motif album ----
 
-    boolean albumEnabled() { return getConfig().getBoolean("album.enabled", true); }
+    boolean albumEnabled() { return enabled(this, Feature.GALLERY) && getConfig().getBoolean(Feature.ALBUM.path, true); }
 
     MotifAlbum album(Player player) {
         return MotifAlbum.decode(player.getPersistentDataContainer().get(albumKey, org.bukkit.persistence.PersistentDataType.STRING));
@@ -537,7 +622,7 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
 
     /** {@code /vgallery album}: progress per size group and a button to collect rewards. */
     void openAlbum(Player player) {
-        if (!albumEnabled()) { lang.send(player, "album.disabled"); return; }
+        if (!albumEnabled()) { lang.send(player, "feature-off"); return; }
         MotifAlbum album = album(player);
         List<Cycle.Variant> all = all();
         List<Vystorm.vystorm_core.compat.dialog.DialogBody> body = new ArrayList<>();
@@ -607,8 +692,17 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
             lang.send(sender, "reloaded", "count", Integer.toString(all().size()));
             return;
         }
+        if (off(sender, Feature.GALLERY)) return;
         if (!(sender instanceof Player player)) { lang.send(sender, "usage", "label", label); return; }
         if (!player.hasPermission("vystormgallery.use")) { lang.send(player, "denied"); return; }
+        Feature needed = switch (sub) {
+            case "undo" -> Feature.UNDO;
+            case "lock" -> Feature.LOCK;
+            case "playlist" -> Feature.PLAYLISTS;
+            case "slideshow" -> Feature.SLIDESHOW;
+            default -> Feature.MOTIF_MENU; // menu, random and a motif name
+        };
+        if (off(player, needed) || sub.equals("playlist") && off(player, Feature.SLIDESHOW)) return;
         switch (sub) {
             case "menu" -> menu(player);
             case "random" -> random(player);
@@ -640,30 +734,39 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
      * {@code commands.vgallery.*} in the language files ({@code /gemaelde zufall}, {@code /画廊 随机}); English always works.
      * A word that is no subcommand is a motif name, as before. Every node hands the English ids to {@link #handle}.
      */
+    /**
+     * Keeps a subcommand out of help and tab completion while its switch (or gallery.enabled) is off, asked at every
+     * completion so a switch applies at once; it still answers the off message.
+     */
+    static CommandSpec.Builder gate(CommandSpec.Builder sub, GalleryPlugin p, Feature feature) {
+        return p == null ? sub : sub.visibleWhen(() -> enabled(p, feature));
+    }
+
     static CommandSpec commandSpec(GalleryPlugin p) {
         return CommandSpec.command("vgallery")
                 .permission("vystormgallery.use")
                 .aliases("gallery")
-                .sub("exhibitions", s -> s.playerOnly().arg(Arg.greedy("action").optional().suggests((ctx, prefix) -> Exhibitions.suggestActions(prefix))).executes(ctx -> p.exhibitions.command(ctx.player(), ctx.get("action"))))
-                .sub("album", s -> s.playerOnly().executes(ctx -> p.openAlbum(ctx.player())))
+                .sub("exhibitions", s -> gate(s, p, Feature.EXHIBITIONS).playerOnly().arg(Arg.greedy("action").optional().suggests((ctx, prefix) -> Exhibitions.suggestActions(prefix)))
+                        .executes(ctx -> { if (!p.off(ctx.player(), Feature.EXHIBITIONS)) p.exhibitions.command(ctx.player(), ctx.get("action")); }))
+                .sub("album", s -> gate(s, p, Feature.ALBUM).playerOnly().executes(ctx -> p.openAlbum(ctx.player())))
                 .arg(Arg.word("motif").optional().suggests((ctx, prefix) -> p.motifs()))
                 .executes(ctx -> {
                     String motif = ctx.get("motif");
                     if (motif == null) p.handle(ctx.sender(), ctx.label());
                     else p.handle(ctx.sender(), ctx.label(), motif);
                 })
-                .sub("menu", s -> s.playerOnly().executes(ctx -> p.handle(ctx.sender(), ctx.label(), "menu")))
-                .sub("random", s -> s.playerOnly().executes(ctx -> p.handle(ctx.sender(), ctx.label(), "random")))
-                .sub("undo", s -> s.playerOnly().executes(ctx -> p.handle(ctx.sender(), ctx.label(), "undo")))
-                .sub("lock", s -> s.permission("vystormgallery.lock").playerOnly().executes(ctx -> p.handle(ctx.sender(), ctx.label(), "lock")))
-                .sub("slideshow", s -> s.permission("vystormgallery.slideshow").playerOnly()
+                .sub("menu", s -> gate(s, p, Feature.MOTIF_MENU).playerOnly().executes(ctx -> p.handle(ctx.sender(), ctx.label(), "menu")))
+                .sub("random", s -> gate(s, p, Feature.MOTIF_MENU).playerOnly().executes(ctx -> p.handle(ctx.sender(), ctx.label(), "random")))
+                .sub("undo", s -> gate(s, p, Feature.UNDO).playerOnly().executes(ctx -> p.handle(ctx.sender(), ctx.label(), "undo")))
+                .sub("lock", s -> gate(s, p, Feature.LOCK).permission("vystormgallery.lock").playerOnly().executes(ctx -> p.handle(ctx.sender(), ctx.label(), "lock")))
+                .sub("slideshow", s -> gate(s, p, Feature.SLIDESHOW).permission("vystormgallery.slideshow").playerOnly()
                         .arg(Arg.word("interval").optional().suggests((ctx, prefix) -> List.of(ctx.valueName("off"), "10", "30", "60", "5m")))
                         .executes(ctx -> {
                             String interval = ctx.get("interval");
                             if (interval == null) p.handle(ctx.sender(), ctx.label(), "slideshow");
                             else p.handle(ctx.sender(), ctx.label(), "slideshow", ctx.keyword(interval, "off") != null ? "off" : interval);
                         }))
-                .sub("playlist", s -> s.permission("vystormgallery.slideshow").playerOnly()
+                .sub("playlist", s -> gate(gate(s, p, Feature.SLIDESHOW), p, Feature.PLAYLISTS).permission("vystormgallery.slideshow").playerOnly()
                         .executes(ctx -> p.handle(ctx.sender(), ctx.label(), "playlist", "list"))
                         .sub("add", a -> a.executes(ctx -> p.handle(ctx.sender(), ctx.label(), "playlist", "add")))
                         .sub("remove", a -> a.executes(ctx -> p.handle(ctx.sender(), ctx.label(), "playlist", "remove")))

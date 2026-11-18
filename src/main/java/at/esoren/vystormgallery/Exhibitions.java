@@ -16,7 +16,7 @@ import org.bukkit.inventory.*;
 final class Exhibitions implements Listener {
     private final GalleryPlugin plugin; private final API core; private final ExhibitionStore data;
     Exhibitions(GalleryPlugin plugin, API core, ExhibitionStore data) { this.plugin = plugin; this.core = core; this.data = data; }
-    private boolean allowed(Player p) { return p.isOnline() && p.hasPermission("vystormgallery.use"); }
+    private boolean allowed(Player p) { return GalleryPlugin.enabled(plugin, Feature.EXHIBITIONS) && p.isOnline() && p.hasPermission("vystormgallery.use"); }
     private void result(Player p, ExhibitionStore.Result r) { plugin.lang().send(p, "exhibitions.result-" + r.name().toLowerCase(Locale.ROOT)); }
     private void prompt(Player p, String key, String value, Consumer<String> callback) {
         p.closeInventory(); core.dialogs().prompt(plugin, p, plugin.lang().ref("exhibitions.title"), plugin.lang().ref("exhibitions." + key), value,

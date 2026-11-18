@@ -57,7 +57,13 @@ final class GuidedTours implements Listener {
         } catch (IllegalArgumentException ignored) { /* damaged row */ }
     }
 
-    boolean enabled() { return plugin.getConfig().getBoolean("tours.enabled", true); }
+    /** tours.enabled; tours need exhibitions.enabled (and gallery.enabled) as well. */
+    boolean enabled() {
+        return plugin.getConfig().getBoolean("tours.enabled", true) && GalleryPlugin.enabled(plugin, Feature.EXHIBITIONS);
+    }
+
+    /** Ends every running tour (switched off). */
+    void endAll() { tours.clear(); }
     String caption(UUID painting) { return captions.get(painting); }
     boolean touring(Player player) { return tours.containsKey(player.getUniqueId()); }
 
@@ -72,7 +78,7 @@ final class GuidedTours implements Listener {
 
     void start(Player player, UUID exhibition) {
         var e = data.get(exhibition);
-        if (!enabled()) { plugin.lang().send(player, "exhibitions.tour-disabled"); return; }
+        if (!enabled()) { plugin.lang().send(player, "feature-off"); return; }
         if (e == null || !e.visible(player.getUniqueId())) { plugin.lang().send(player, "exhibitions.result-denied"); return; }
         if (e.paintings().size() < 2) { plugin.lang().send(player, "exhibitions.tour-too-short"); return; }
         tours.put(player.getUniqueId(), new Tour(exhibition, 0, System.currentTimeMillis()));
@@ -91,6 +97,7 @@ final class GuidedTours implements Listener {
     /** Every half second: arrivals, the way to the next stop and the finish. */
     void tick() {
         if (tours.isEmpty()) return;
+        if (!enabled()) { tours.clear(); return; }
         long now = System.currentTimeMillis();
         double radius = Math.clamp(plugin.getConfig().getDouble("tours.arrival-radius", 4), 1.5, 16);
         for (UUID id : List.copyOf(tours.keySet())) {

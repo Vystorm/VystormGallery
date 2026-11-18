@@ -23,7 +23,7 @@ unknown-motif: <red>Sem motivo <yellow>{name}</yellow> Aqui. <gray>A tabulação
 locked: <green>Pintura trancada. Só você pode mudar ou quebrar agora.
 unlocked: <gray>Pintura destrancada.
 locked-by: <red>Esta pintura está trancada por <yellow>{owner}</yellow>.
-feature-off: <gray>Este recurso está desligado neste servidor.
+feature-off: "<gray>Este recurso está desligado neste servidor."
 slideshow-on: '<green>Slideshow começou: um novo motivo a cada <yellow>{time}</yellow>.'
 slideshow-off: <gray>Slideshow parou.
 slideshow-usage: <gray>{label} slideshow (segundos, e.g. 30 ou 5m)
@@ -208,3 +208,35 @@ panel:
   remove-confirm: "Remover este quadro da exposição? Os votos serão zerados; o quadro continuará no mundo."
   save: "Salvar"
   votes: "Votos"
+switches:
+  gallery: "O plugin inteiro: pinturas, menus, apresentações e visitas"
+  scroll: "Modo rolagem: clique direito numa pintura e role"
+  sneak-flip: "Agachado e clique direito troca um motivo"
+  resize: "Pinturas podem mudar de tamanho conforme a parede"
+  excluded: "A lista de motivos excluídos"
+  sound: "Som ao trocar o motivo"
+  action-bar: "Motivo, tamanho e posição na barra de ação"
+  select-on-place: "Uma pintura recém pendurada começa no modo rolagem"
+  motif-menu: "Menu de motivos, motivo aleatório e motivo por nome"
+  brush: "Copiar um motivo com um pincel"
+  favourites: "Motivos favoritos primeiro no menu"
+  lock: "Trava de pintura"
+  lock-break: "Outros não quebram pinturas travadas"
+  lock-explosions: "Explosões deixam pinturas travadas penduradas"
+  slideshow: "Apresentações em pinturas"
+  playlists: "Ordens de motivos salvas para apresentações"
+  undo: "Desfazer a última troca de motivo"
+  album: "Álbum de motivos com recompensas"
+  exhibitions: "Exposições com publicação e votos"
+  tours: "Visitas guiadas pelas exposições"
+  protection-check: "Perguntar aos plugins de proteção antes de trocar"
+  tutorial: "Tutorial no menu principal (precisa reiniciar)"
+placeholder:
+  album_found: "Motivos descobertos pelo jogador"
+  album_total: "Todos os motivos"
+  album_groups_complete: "Grupos de tamanho completos"
+  album_groups_rewarded: "Grupos de tamanho recompensados"
+  exhibitions_owned: "Exposições do jogador"
+  exhibition_votes: "Votos nas exposições do jogador"
+  exhibitions_published: "Exposições publicadas"
+  touring: "true ou false: o jogador está numa visita"

@@ -31,7 +31,7 @@ final class GalleryPanels {
     }
     private void register() {
         panels.register(MotifPanel.NAME, PanelSpec.builder(plugin.lang().ref("panel.motifs"))
-                .access(this::allowed).render(ctx -> {
+                .access(p -> allowed(p) && GalleryPlugin.enabled(plugin, Feature.MOTIF_MENU)).render(ctx -> {
                     Target target = paintings.get(ctx.player().getUniqueId());
                     Painting painting = target == null ? null : plugin.panelPainting(ctx.player(), target.id());
                     if (painting == null) return unavailable(ctx);
@@ -48,7 +48,7 @@ final class GalleryPanels {
                             plugin.slideshow().minSeconds(), plugin.slideshow().maxSeconds(), plugin.slideshow().defaultSeconds()), motifActions);
                 }).fallback(this::motifFallback).build());
         panels.register(ExhibitionPanel.DETAIL, PanelSpec.builder(plugin.lang().ref("exhibitions.title"))
-                .access(this::allowed).render(ctx -> {
+                .access(p -> allowed(p) && GalleryPlugin.enabled(plugin, Feature.EXHIBITIONS)).render(ctx -> {
                     Target target = shows.get(ctx.player().getUniqueId());
                     var e = target == null ? null : store.get(target.id());
                     if (e == null || !e.visible(ctx.player().getUniqueId())) return unavailable(ctx);
@@ -65,7 +65,7 @@ final class GalleryPanels {
                             e.votes().contains(ctx.player().getUniqueId()), plugin.tours().enabled() && rows.size() >= 2), exhibitionActions);
                 }).fallback(this::exhibitionFallback).build());
         panels.register(ExhibitionPanel.BROWSER, PanelSpec.builder(plugin.lang().ref("exhibitions.title"))
-                .access(this::allowed).render(ctx -> browser.browser(ctx, store.visible(ctx.player().getUniqueId()).stream().map(GalleryPanels::entry).toList(), exhibitionActions))
+                .access(p -> allowed(p) && GalleryPlugin.enabled(plugin, Feature.EXHIBITIONS)).render(ctx -> browser.browser(ctx, store.visible(ctx.player().getUniqueId()).stream().map(GalleryPanels::entry).toList(), exhibitionActions))
                 .menu(MenuCategory.COMMUNITY, Material.PAINTING, plugin.lang().ref("exhibitions.description"))
                 .fallback(p -> exhibitions.listChest(p, browserPages.getOrDefault(p.getUniqueId(), 0))).build());
     }

@@ -1,3 +1,19 @@
+## 1.18.0 — 2026-11-18
+
+- Requires Vystorm Core 0.65.0 or newer. Update Core before you update this plugin.
+- Every feature can now be switched on and off in `config.yml`. All switches are on by default, so a server that updates keeps working as before; the new keys are added to your existing `config.yml` with their comments. Each switch is listed in Core's `/vadmin features` with a one-line description in seven languages and applies at once, without a restart (only `tutorial.enabled` needs one).
+  - The whole plugin: `gallery.enabled`. Off: paintings behave as in vanilla (no scroll mode, brush, lock protection, slideshows or tours) and every `/vgallery` command except `reload` is switched off.
+  - Changing motifs: `scroll-mode.enabled`, `resize.enabled` (off: only motifs with the painting's size), `excluded-motifs.enabled` (off: the excluded list is ignored), `action-bar.enabled`, `motif-menu.enabled` (the menu, `/vgallery random` and `/vgallery MOTIF`), `undo.enabled`.
+  - Slideshows: `slideshow.playlists.enabled` (off: slideshows use the normal order; playlists stay on the paintings).
+  - Exhibitions: `exhibitions.enabled` (the command, the menus and the Core main menu entry; tours need it).
+  - Protection: `protection-check.enabled`. Off: region and protection plugins are not asked before a motif changes; turn it off only on servers without such plugins.
+  - Tutorial: `tutorial.enabled` (needs a restart).
+  - Keys that already existed keep their names and are now listed as switches too: `sneak-click-flips`, `sound`, `select-on-place`, `brush`, `favourites`, `lock.protect-break`, `lock.protect-explosions`.
+- A switched-off feature answers one shared message, "This feature is switched off on this server.", its subcommands are hidden from help and tab completion, and its buttons leave the menus. Locks, slideshows, playlists, albums, favourites and exhibitions stay saved and work again when the switch is back on.
+- Tab completion and help follow a switch at once, without registering the command again.
+- Placeholders: the plugin registers its values with Vystorm Core under the namespace `gallery`: motifs found and all motifs, completed and rewarded size groups, the player's exhibitions and their votes, published exhibitions, and whether the player is on a tour. Examples: `%vystorm_gallery_album_found%` (motifs the player discovered) and `{gallery:exhibitions_published}`. `/vadmin placeholders gallery` lists them. A value of a switched-off feature is empty.
+- The off messages of the album and of tours are now the shared message.
+
 ## 1.17.0 — 2026-11-17
 
 - Requires Vystorm Core 0.64.0 or newer. Update Core before you update this plugin.

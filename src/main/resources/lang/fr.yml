@@ -23,7 +23,7 @@ unknown-motif: <red>Pas de motif <yellow>{name}</yellow> Ici. <gray>Onglet compl
 locked: <green>Peinture verrouillée. Seul vous pouvez le changer ou le casser maintenant.
 unlocked: <gray>Peinture déverrouillée.
 locked-by: <red>Cette peinture est verrouillée par <yellow>{owner}</yellow>.
-feature-off: <gray>Cette fonctionnalité est désactivée sur ce serveur.
+feature-off: "<gray>Cette fonctionnalité est désactivée sur ce serveur."
 slideshow-on: '<green>Diaporama commencé: un nouveau motif chaque <yellow>{time}</yellow>.'
 slideshow-off: <gray>Le diaporama s'est arrêté.
 slideshow-usage: <gray>/{label} diaporama (secondes, e.g. 30 ou 5m)
@@ -208,3 +208,35 @@ panel:
   remove-confirm: "Retirer ce tableau de l’exposition ? Les votes seront réinitialisés ; le tableau restera dans le monde."
   save: "Enregistrer"
   votes: "Votes"
+switches:
+  gallery: "Tout le plugin : tableaux, menus, diaporamas et visites"
+  scroll: "Mode défilement : clic droit sur un tableau puis molette"
+  sneak-flip: "Accroupi et clic droit change un motif"
+  resize: "Les tableaux peuvent changer de taille selon le mur"
+  excluded: "La liste des motifs exclus"
+  sound: "Son de clic au changement de motif"
+  action-bar: "Motif, taille et position dans la barre d'action"
+  select-on-place: "Un tableau tout juste posé démarre en mode défilement"
+  motif-menu: "Menu des motifs, motif au hasard et motif par nom"
+  brush: "Copier un motif avec un pinceau"
+  favourites: "Motifs favoris en premier dans le menu"
+  lock: "Verrou de tableau"
+  lock-break: "Les autres ne peuvent pas casser un tableau verrouillé"
+  lock-explosions: "Les explosions laissent les tableaux verrouillés"
+  slideshow: "Diaporamas sur les tableaux"
+  playlists: "Ordres de motifs enregistrés pour les diaporamas"
+  undo: "Annuler le dernier changement de motif"
+  album: "Album de motifs avec récompenses"
+  exhibitions: "Expositions avec publication et votes"
+  tours: "Visites guidées des expositions"
+  protection-check: "Demander aux plugins de protection avant un changement"
+  tutorial: "Tutoriel dans le menu principal (redémarrage nécessaire)"
+placeholder:
+  album_found: "Motifs découverts par le joueur"
+  album_total: "Tous les motifs"
+  album_groups_complete: "Groupes de taille complétés par le joueur"
+  album_groups_rewarded: "Groupes de taille récompensés"
+  exhibitions_owned: "Expositions du joueur"
+  exhibition_votes: "Votes pour les expositions du joueur"
+  exhibitions_published: "Expositions publiées"
+  touring: "true ou false : le joueur fait une visite"

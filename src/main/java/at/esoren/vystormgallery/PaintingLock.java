@@ -37,6 +37,13 @@ final class PaintingLock {
 
     boolean enabled() { return enabled; }
 
+    /** lock.enabled, lock.protect-break and lock.protect-explosions as switches (each also off while gallery.enabled is off). */
+    void switches(boolean lockOn, boolean breakOn, boolean explosionsOn) {
+        enabled = enabled && lockOn;
+        protectBreak = protectBreak && breakOn;
+        protectExplosions = protectExplosions && explosionsOn;
+    }
+
     /** Owner UUID as stored, or null when the painting is not locked. */
     String owner(Painting painting) { return painting.getPersistentDataContainer().get(ownerKey, PersistentDataType.STRING); }
 

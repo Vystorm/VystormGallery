@@ -64,6 +64,9 @@ final class Slideshow implements Listener {
 
     boolean enabled() { return enabled; }
 
+    /** slideshow.enabled together with gallery.enabled. Off: no painting changes; the slideshows stay stored on the paintings. */
+    void enabled(boolean on) { enabled = enabled && on; }
+
     int defaultSeconds() { return defaultSeconds; }
     int minSeconds() { return minSeconds; }
     int maxSeconds() { return maxSeconds; }

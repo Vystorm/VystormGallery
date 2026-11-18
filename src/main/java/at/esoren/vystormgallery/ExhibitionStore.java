@@ -57,6 +57,8 @@ final class ExhibitionStore {
                 && value.codePoints().noneMatch(c -> Character.isISOControl(c) || c == 0xa7 || c == 0x2028 || c == 0x2029);
     }
     Exhibition get(UUID id) { return entries.get(id); }
+    /** Every exhibition, for counts (placeholders). */
+    java.util.Collection<Exhibition> all() { return List.copyOf(entries.values()); }
     Exhibition own(UUID owner, String name) { return entries.values().stream().filter(e -> e.owner().equals(owner) && e.name().equalsIgnoreCase(name)).findFirst().orElse(null); }
     List<Exhibition> visible(UUID viewer) { return entries.values().stream().filter(e -> e.visible(viewer)).sorted(Comparator.comparingInt((Exhibition e) -> e.votes().size()).reversed().thenComparing(Exhibition::name)).toList(); }
     Result create(UUID owner, String name) {

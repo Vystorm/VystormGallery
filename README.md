@@ -12,7 +12,7 @@
 - Painting brush: sneak + right-click a painting with a brush to pick up its motif, right-click other paintings to apply it.
 - Favourite motifs: shift-click a motif in the motif menu to mark it; your favourites come first, with a star, in every motif menu.
 - Texts in seven languages (`lang/en.yml`, `de`, `fr`, `it`, `pt_br`, `ru` and `zh_cn`) through the Vystorm Core language system; `config.yml` is editable in game with `/vadmin config`.
-- Paper/Purpur 1.20.6 – 26.x. Java 21 bytecode; use the Java version required by your server (Java 21 for 1.20.6, Java 25 for 26.x). Needs [Vystorm Core](https://www.spigotmc.org/resources/139848/) 0.64.0+ (free).
+- Needs [Vystorm Core](https://www.spigotmc.org/resources/139848/) 0.65.0 or newer (free). What the build checks: Java 21 bytecode (`--release 21`), compiled against the Paper API 1.21.11 and, in `compat1206` and `test1206`, against Paper 1.20.6. Use the Java version your server needs.
 
 ## Motif album (1.14.0)
 
@@ -49,7 +49,7 @@ Build a themed slideshow for each painting. Choose a motif with the menu or brus
 
 Playback follows insertion order (or random order with `slideshow.shuffle`). Missing datapack motifs, excluded motifs, incompatible sizes and motifs that do not fit are skipped; if none can be shown, the painting stays unchanged. An empty playlist uses the normal slideshow selection. Editing a playlist does not start or stop playback or change the displayed motif. Stop playback while assembling a list if you want the selected motif to stay put. Locks and protection plugins are checked before accessing the list.
 
-Uses `vystormgallery.use` and `vystormgallery.slideshow` and the existing `slideshow` settings, including `enabled` and `same-size`; no new config keys or permissions. German: `/gemaelde motivliste [hinzufügen|entfernen|leeren|anzeigen]`; Chinese: `/画廊 播放列表 [添加|移除|清空|查看]`. English names work in every language.
+Uses `vystormgallery.use` and `vystormgallery.slideshow` and the existing `slideshow` settings, including `enabled` and `same-size`, and since 1.18.0 the switch `slideshow.playlists.enabled`; no new permissions. German: `/gemaelde motivliste [hinzufügen|entfernen|leeren|anzeigen]`; Chinese: `/画廊 播放列表 [添加|移除|清空|查看]`. English names work in every language.
 
 Use `/vgallery playlist first` or `/vgallery playlist last` to move the currently displayed motif to the beginning or end of its saved playlist. Other motifs keep their order. Missing motifs are not added, the displayed painting stays unchanged, and existing locks and region protection still apply. German: `/gemaelde motivliste anfang` or `ende`; Chinese: `/画廊 播放列表 置顶` or `置底`. Random playback still uses the configured shuffle behavior.
 
@@ -69,6 +69,14 @@ Use `/vgallery playlist first` or `/vgallery playlist last` to move the currentl
 | `vystormgallery.lock` | lock paintings (default: everyone) |
 | `vystormgallery.slideshow` | slideshow paintings and manage their playlists (default: everyone) |
 | `vystormgallery.bypass` | change, break and unlock locked paintings (default: op) |
+
+## Switches
+
+Every feature has an on/off switch in `config.yml` (all on by default, listed in Vystorm Core's `/vadmin features`, applied without a restart except `tutorial.enabled`): `gallery.enabled` (the whole plugin), `scroll-mode.enabled`, `sneak-click-flips`, `resize.enabled`, `excluded-motifs.enabled`, `sound`, `action-bar.enabled`, `select-on-place`, `motif-menu.enabled`, `brush`, `favourites`, `lock.enabled`, `lock.protect-break`, `lock.protect-explosions`, `slideshow.enabled`, `slideshow.playlists.enabled`, `undo.enabled`, `album.enabled`, `exhibitions.enabled`, `tours.enabled`, `protection-check.enabled`, `tutorial.enabled`. A switched-off feature answers "This feature is switched off on this server."; locks, slideshows, playlists, albums, favourites and exhibitions stay saved.
+
+## Placeholders
+
+With Vystorm Core 0.65.0 the plugin registers the namespace `gallery` (server thread; empty while the feature is switched off): `album_found`, `album_total`, `album_groups_complete`, `album_groups_rewarded`, `exhibitions_owned`, `exhibition_votes`, `exhibitions_published`, `touring`. Examples: `%vystorm_gallery_album_found%` (motifs the player discovered) and `{gallery:exhibitions_published}`. `/vadmin placeholders gallery` lists them.
 
 ## Config
 
@@ -99,7 +107,7 @@ The jar is `build/libs/VystormGallery-<version>.jar`.
 
 On 1.20.6, the chest menu uses ordinary painting icons and readable motif names instead of native motif previews/titles. Only motifs available on the server are offered; newer vanilla and datapack painting variants require a server that supports them. Scrolling, brush, favourites, locks, undo and slideshows remain available. Core supplies compatibility helpers and a chat fallback for its config dialogs.
 
-Build with JDK 25 and `-PvystormCoreJar=<Core 0.64.0+ jar>`. All source sets target Java 21. The `modern` source set isolates current Paper APIs and is included in the same jar. `check` includes `compat1206` (main sources compiled against the old API) and `test1206` (a server-free linkage/fallback smoke check against those libraries). Set `-Ppaper1206Libraries=<directory>` to override the default `<home>/source/tools/smoke-1206/libraries` location. The offline build needs the normal Gradle dependencies cached as well.
+Build with JDK 25 and `-PvystormCoreJar=<Core 0.65.0+ jar>`. All source sets target Java 21. The `modern` source set isolates current Paper APIs and is included in the same jar. `check` includes `compat1206` (main sources compiled against the old API) and `test1206` (a server-free linkage/fallback smoke check against those libraries). Set `-Ppaper1206Libraries=<directory>` to override the default `<home>/source/tools/smoke-1206/libraries` location. The offline build needs the normal Gradle dependencies cached as well.
 
 ## Painting exhibitions
 

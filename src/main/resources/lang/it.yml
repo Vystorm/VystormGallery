@@ -25,7 +25,7 @@ unknown-motif: <red>Nessun motivo <yellow>{name}</yellow> Qui. <gray>La scheda c
 locked: <green>Pittura chiusa. Solo tu puoi cambiarlo o spezzarlo ora.
 unlocked: <gray>Dipingere sbloccato.
 locked-by: <red>Questo dipinto è bloccato da <yellow>{owner}</yellow>.
-feature-off: <gray>Questa funzione è disattivata su questo server.
+feature-off: "<gray>Questa funzione è disattivata su questo server."
 slideshow-on: '<green>Slideshow iniziato: un nuovo motivo ogni <yellow>{time}</yellow>.'
 slideshow-off: <gray>Slideshow si e' fermato.
 slideshow-usage: <gray>/{label} slideshow (secondi, e.g. 30 o 5m)
@@ -210,3 +210,35 @@ panel:
   remove-confirm: "Rimuovere questo quadro dalla mostra? I voti verranno azzerati; il quadro rimarrà nel mondo."
   save: "Salva"
   votes: "Voti"
+switches:
+  gallery: "L'intero plugin: quadri, menu, presentazioni e visite"
+  scroll: "Modalità scorrimento: clic destro su un quadro e rotellina"
+  sneak-flip: "Accovacciato e clic destro cambia un motivo"
+  resize: "I quadri possono cambiare dimensione secondo la parete"
+  excluded: "La lista dei motivi esclusi"
+  sound: "Suono al cambio di motivo"
+  action-bar: "Motivo, dimensione e posizione nella barra azioni"
+  select-on-place: "Un quadro appena appeso parte in modalità scorrimento"
+  motif-menu: "Menu dei motivi, motivo casuale e motivo per nome"
+  brush: "Copiare un motivo con un pennello"
+  favourites: "Motivi preferiti per primi nel menu"
+  lock: "Blocco del quadro"
+  lock-break: "Gli altri non possono rompere i quadri bloccati"
+  lock-explosions: "Le esplosioni lasciano appesi i quadri bloccati"
+  slideshow: "Presentazioni sui quadri"
+  playlists: "Sequenze di motivi salvate per le presentazioni"
+  undo: "Annullare l'ultimo cambio di motivo"
+  album: "Album dei motivi con ricompense"
+  exhibitions: "Mostre con pubblicazione e voti"
+  tours: "Visite guidate delle mostre"
+  protection-check: "Chiedere ai plugin di protezione prima di un cambio"
+  tutorial: "Tutorial nel menu principale (serve un riavvio)"
+placeholder:
+  album_found: "Motivi scoperti dal giocatore"
+  album_total: "Tutti i motivi"
+  album_groups_complete: "Gruppi di dimensione completati"
+  album_groups_rewarded: "Gruppi di dimensione premiati"
+  exhibitions_owned: "Mostre del giocatore"
+  exhibition_votes: "Voti alle mostre del giocatore"
+  exhibitions_published: "Mostre pubblicate"
+  touring: "true o false: il giocatore è in visita"

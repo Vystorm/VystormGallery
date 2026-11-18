@@ -1,20 +1,58 @@
 # Vystorm Gallery
 # Right-click a painting with an empty hand, scroll the mouse wheel to flip through motifs, right-click again to keep it.
 # Sneak + right-click flips one motif without scroll mode.
+#
+# Every feature has an on/off switch (all on by default). They are listed in Vystorm Core's /vadmin features and
+# apply at once without a restart, except tutorial.enabled. A switched-off feature does nothing, its commands answer
+# "This feature is switched off on this server." and its placeholders are empty. Locks, slideshows, playlists, albums,
+# favourites and exhibitions stay saved and are used again when the switch is turned back on.
+
+# The whole plugin. Off: paintings behave as in vanilla (no scroll mode, brush, lock protection, slideshows or tours)
+# and every /vgallery command except reload is switched off.
+gallery:
+  enabled: true
+
+# Scroll mode: right-click a painting with an empty hand and scroll. Off: no scroll mode (select-on-place needs it).
+scroll-mode:
+  enabled: true
 
 # fit: every motif that fits the free wall space (the painting may grow or shrink)
 # same-size: only motifs with the painting's current size
 mode: fit
+# Paintings may change their size (mode: fit). Off: only motifs with the painting's size, whatever mode says.
+resize:
+  enabled: true
 
 # Motifs that are never offered, e.g. [minecraft:skull_and_roses] (namespace optional). Datapack motifs are included automatically.
 excluded: []
+# The excluded list above. Off: every motif is offered.
+excluded-motifs:
+  enabled: true
 
 # Scroll mode ends after this many seconds without scrolling, or when the player is further away than max-distance blocks.
 scroll-timeout-seconds: 20
 max-distance: 8
 
+# Sneak + right-click flips one motif.
 sneak-click-flips: true
+# Click sound when a motif changes (higher for small motifs).
 sound: true
+# Action bar line with motif, size and position after a change. Off: no line (the scroll hints stay).
+action-bar:
+  enabled: true
+
+# Motif menu (/vgallery), /vgallery random and /vgallery MOTIF. Off: these commands and the menu are switched off.
+motif-menu:
+  enabled: true
+
+# /vgallery undo restores the motif before your last change. Off: the command is switched off.
+undo:
+  enabled: true
+
+# Ask region and protection plugins before a motif changes, so a blocked painting stays as it is. Off: they are not
+# asked and players can change paintings where those plugins protect them; turn this off only without such plugins.
+protection-check:
+  enabled: true
 
 # Hanging a new painting starts scroll mode right away, so the player picks the motif on the spot.
 select-on-place: true
@@ -51,6 +89,15 @@ slideshow:
   # Paintings only change while a player is within this many blocks.
   player-range: 32
   sound: false
+  playlists:
+    # Saved motif orders per painting (/vgallery playlist). Off: the command is switched off and slideshows use the
+    # normal order; playlists stay stored on the paintings.
+    enabled: true
+
+# Exhibitions (/vgallery exhibitions, Core main menu): named collections of paintings with title, description,
+# publishing and votes. Off: the command and the menus are switched off; tours need this switch.
+exhibitions:
+  enabled: true
 
 tours:
   # Guided tours: a published exhibition with two or more paintings gets a "Tour" button. Visitors walk to each
@@ -70,3 +117,7 @@ album:
   reward-xp: 50
   # Extra console commands for each completed group; {player} and {size} are replaced, e.g. "give {player} emerald 2".
   reward-commands: []
+
+# Tutorial in the Vystorm Core main menu (/vmenu -> Tutorials). Needs a server restart to apply.
+tutorial:
+  enabled: true
