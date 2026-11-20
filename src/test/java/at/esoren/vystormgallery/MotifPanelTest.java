@@ -29,6 +29,41 @@ class MotifPanelTest {
         assertEquals(5, interval.get("min").getAsInt()); assertEquals(3600, interval.get("max").getAsInt());
         assertEquals(30, interval.get("value").getAsInt());
     }
+    @Test void givenThePaintingSettings_whenRendered_thenTheyAreAListWithANameAndADescriptionPerRowInEveryLanguage() throws Exception {
+        for (String code : PanelTestSupport.LANGUAGES) {
+            JsonObject doc = write(overview(true), "minecraft:pool", 0, code);
+            JsonObject section = section(doc, "lock");
+            assertNotNull(section, code);
+            assertEquals("list", section.get("layout").getAsString(), code);
+            for (String id : List.of("lock", "slideshow")) {
+                JsonObject toggle = PanelTesting.find(doc, id);
+                assertFalse(PanelTesting.plain(toggle.get("label")).isBlank(), code + " " + id);
+                assertFalse(PanelTesting.plain(toggle.get("description")).isBlank(), code + " " + id);
+            }
+            for (String id : List.of("interval", "next-interval")) {
+                JsonObject element = PanelTesting.find(doc, id);
+                assertFalse(PanelTesting.plain(element.get("label")).isBlank(), code + " " + id);
+                assertFalse(element.getAsJsonArray("tooltip").isEmpty(), code + " " + id);
+                assertFalse(PanelTesting.plain(element.getAsJsonArray("tooltip").get(0)).isBlank(), code + " " + id);
+            }
+            assertFalse(doc.toString().contains("panel."), code);
+        }
+    }
+
+    /** The section that directly holds the element with the id. */
+    private static JsonObject section(com.google.gson.JsonElement node, String childId) {
+        if (node instanceof com.google.gson.JsonArray array) {
+            for (var item : array) { JsonObject found = section(item, childId); if (found != null) return found; }
+        } else if (node instanceof JsonObject object) {
+            if (object.has("children") && object.get("children").isJsonArray())
+                for (var child : object.getAsJsonArray("children"))
+                    if (child.isJsonObject() && child.getAsJsonObject().has("id") && child.getAsJsonObject().get("id").getAsString().endsWith(childId)
+                            && object.has("layout")) return object;
+            for (var entry : object.entrySet()) { JsonObject found = section(entry.getValue(), childId); if (found != null) return found; }
+        }
+        return null;
+    }
+
     @Test void givenUnavailableFeatures_whenRendered_thenTheirControlsAreAbsent() throws Exception {
         var ids = PanelTesting.ids(write(overview(false), null, 0, "en"));
         for (String id : List.of("favourite", "lock", "slideshow", "interval")) assertFalse(ids.contains(id));

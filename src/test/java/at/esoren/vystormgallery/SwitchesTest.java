@@ -210,6 +210,30 @@ class SwitchesTest {
         }
     }
 
+    @Test void givenSlideshowOff_whenThePlaylistCommandRuns_thenTheAnswerNamesTheSwitchItNeeds() throws Exception {
+        GalleryPlugin plugin = plugin(Feature.SLIDESHOW);
+        doCallRealMethod().when(plugin).handle(any(), anyString(), any(String[].class));
+        Player player = player();
+        when(lang(plugin).plain(player, Feature.SLIDESHOW.label())).thenReturn("Slideshows");
+        plugin.handle(player, "vgallery", "playlist");
+        verify(lang(plugin)).send(player, "feature-needs", "switch", "slideshow.enabled", "name", "Slideshows");
+        verify(plugin, never()).lookedAt(any());
+    }
+
+    @Test void givenSlideshowOff_whenTheCommandTreeIsBuilt_thenPlaylistStaysListedSoItCanNameTheSwitch() throws Exception {
+        GalleryPlugin plugin = plugin(Feature.SLIDESHOW);
+        CommandSpec tree = GalleryPlugin.commandSpec(plugin);
+        assertFalse(tree.children().get("slideshow").visibleTo(null));
+        assertTrue(tree.children().get("playlist").visibleTo(null));
+        field(plugin, "switches", Feature.Switches.without(Feature.PLAYLISTS));
+        assertFalse(tree.children().get("playlist").visibleTo(null));
+    }
+
+    @Test void givenEveryLanguage_whenRead_thenTheNeedsMessageNamesTheSwitch() {
+        for (String code : List.of("en", "de", "fr", "it", "pt_br", "ru", "zh_cn"))
+            assertTrue(YamlConfiguration.loadConfiguration(new File("src/main/resources/lang/" + code + ".yml")).getString("feature-needs", "").matches(".*\\{name}.*\\{switch}.*"), code);
+    }
+
     @Test void givenAllOn_whenACommandRuns_thenItLooksForThePainting() throws Exception {
         GalleryPlugin plugin = plugin();
         doCallRealMethod().when(plugin).handle(any(), anyString(), any(String[].class));
@@ -244,6 +268,7 @@ class SwitchesTest {
         field(plugin, "slideshow", new Slideshow(plugin, PlatformCompatInterface.DEFAULT));
         YamlConfiguration config = new YamlConfiguration();
         when(plugin.getConfig()).thenReturn(config);
+        when(plugin.readConfig()).thenReturn(true); // config.yml parsed
         call(plugin, "load", new Class<?>[0]);
         verify(commands, never()).refresh();
         config.set(Feature.UNDO.path, false);

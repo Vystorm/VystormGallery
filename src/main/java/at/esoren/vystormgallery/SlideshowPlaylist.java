@@ -25,7 +25,7 @@ final class SlideshowPlaylist {
     }
 
     void command(Player player, Painting painting, String action) {
-        if (!plugin.slideshowEnabled()) { plugin.lang().send(player, "feature-off"); return; }
+        if (!plugin.slideshowEnabled()) { plugin.lang().send(player, "feature-needs", "switch", Feature.SLIDESHOW.path, "name", plugin.lang().plain(player, Feature.SLIDESHOW.label())); return; }
         if (!player.hasPermission("vystormgallery.use") || !player.hasPermission("vystormgallery.slideshow")
                 || player.getGameMode() == GameMode.SPECTATOR) { plugin.lang().send(player, "denied"); return; }
         if (!painting.isValid() || !plugin.lock().check(player, painting)) return;

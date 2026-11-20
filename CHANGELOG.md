@@ -1,3 +1,13 @@
+## 1.19.0 — 2026-11-20
+
+- `/vgallery reload` with a YAML syntax error in `config.yml` keeps the last working settings instead of falling back to the defaults, and answers with the line and column of the error (also shown in the console, as on start). The file is never changed.
+- `/vadmin features` shows every switch of the plugin with a readable name in the admin's language, for example "Lock break protection" instead of "Lock › Protect break".
+- `/vgallery playlist` with `slideshow.enabled` off now stays in help and tab completion and answers "This needs “Slideshows” (slideshow.enabled), which is switched off on this server." Before, it disappeared and typing it gave "unknown subcommand", so it was not clear which switch to turn on.
+- The Settings tab of the motif menu is a list on Vystorm Screens: "Lock this painting", "Slideshow on this painting", "Interval (seconds)" and "Next interval" each stand on one row with the current value on the right and a one-line description below, in all seven languages. Before, they were small tiles. Players without screens see the menu as before.
+- The slideshow switch in the motif menu needs Vystorm Core 0.66.1 while protection checks are on (`protection-check.enabled`); with 0.66.0 use the command `/vgallery slideshow <seconds>` while looking at the painting.
+- README: names the platforms the plugin was tested on (Paper and Purpur 26.2, Paper 1.20.6, Spigot 26.2).
+- Requires Vystorm Core 0.66.0 or newer. Update Core before you update this plugin.
+
 ## 1.18.0 — 2026-11-18
 
 - Requires Vystorm Core 0.65.0 or newer. Update Core before you update this plugin.

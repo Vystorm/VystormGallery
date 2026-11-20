@@ -62,17 +62,21 @@ final class MotifPanel {
         }
         Ui.Tabs tabs = Ui.tabs("motif-tabs").tab("motifs", ctx.text("panel.motifs"), Ui.row().gap(8).children(list, detail));
         if (o.lock() || o.slideshow()) {
-            Ui.Box settings = Ui.col().gap(8);
-            if (o.lock()) settings.child(Ui.toggle("lock", ctx.text("menu-lock")).value(o.locked())
+            // settings of this painting: one row each on Vystorm Screens (Core 0.66.0 list layout)
+            Ui.Section settings = Ui.section(ctx.text("panel.settings-title")).list();
+            if (o.lock()) settings.child(Ui.toggle("lock", ctx.text("panel.lock-name")).value(o.locked())
                     .description(o.locked() ? ctx.text("menu-locked", "owner", o.owner()) : ctx.text("panel.lock-hint"))
                     .onChange((a, value) -> refresh(a, actions.lock(a.player(), o.painting(), value))));
             if (o.slideshow()) settings.children(
-                    Ui.toggle("slideshow", ctx.text("panel.slideshow")).value(o.seconds() > 0)
+                    Ui.toggle("slideshow", ctx.text("panel.slideshow-name")).value(o.seconds() > 0)
+                            .description(ctx.text("panel.slideshow-desc"))
                             .onChange((a, value) -> refresh(a, actions.slideshow(a.player(), o.painting(), value))),
                     Ui.number("interval", ctx.text("panel.interval")).range(o.minSeconds(), o.maxSeconds(), 1)
                             .value(o.seconds() > 0 ? o.seconds() : o.defaultSeconds()).decimals(0).disabled(o.seconds() == 0)
+                            .tooltip(ctx.text("panel.interval-desc"))
                             .onChange((a, value) -> refresh(a, actions.seconds(a.player(), o.painting(), value.intValue()))),
                     Ui.button("next-interval").label(ctx.text("panel.next-interval")).icon(Ui.item(Material.CLOCK))
+                            .tooltip(ctx.text("panel.next-interval-desc"))
                             .onClick(a -> refresh(a, actions.interval(a.player(), o.painting()))));
             tabs.tab("settings", ctx.text("panel.settings"), settings);
         }

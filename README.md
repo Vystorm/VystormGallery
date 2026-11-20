@@ -12,7 +12,7 @@
 - Painting brush: sneak + right-click a painting with a brush to pick up its motif, right-click other paintings to apply it.
 - Favourite motifs: shift-click a motif in the motif menu to mark it; your favourites come first, with a star, in every motif menu.
 - Texts in seven languages (`lang/en.yml`, `de`, `fr`, `it`, `pt_br`, `ru` and `zh_cn`) through the Vystorm Core language system; `config.yml` is editable in game with `/vadmin config`.
-- Needs [Vystorm Core](https://www.spigotmc.org/resources/139848/) 0.65.0 or newer (free). What the build checks: Java 21 bytecode (`--release 21`), compiled against the Paper API 1.21.11 and, in `compat1206` and `test1206`, against Paper 1.20.6. Use the Java version your server needs.
+- Needs [Vystorm Core](https://www.spigotmc.org/resources/139848/) 0.66.0 or newer (free). What the build checks: Java 21 bytecode (`--release 21`), compiled against the Paper API 1.21.11 and, in `compat1206` and `test1206`, against Paper 1.20.6. Use the Java version your server needs. Tested on Paper and Purpur 26.2, Paper 1.20.6 and Spigot 26.2.
 
 ## Motif album (1.14.0)
 
@@ -107,7 +107,7 @@ The jar is `build/libs/VystormGallery-<version>.jar`.
 
 On 1.20.6, the chest menu uses ordinary painting icons and readable motif names instead of native motif previews/titles. Only motifs available on the server are offered; newer vanilla and datapack painting variants require a server that supports them. Scrolling, brush, favourites, locks, undo and slideshows remain available. Core supplies compatibility helpers and a chat fallback for its config dialogs.
 
-Build with JDK 25 and `-PvystormCoreJar=<Core 0.65.0+ jar>`. All source sets target Java 21. The `modern` source set isolates current Paper APIs and is included in the same jar. `check` includes `compat1206` (main sources compiled against the old API) and `test1206` (a server-free linkage/fallback smoke check against those libraries). Set `-Ppaper1206Libraries=<directory>` to override the default `<home>/source/tools/smoke-1206/libraries` location. The offline build needs the normal Gradle dependencies cached as well.
+Build with JDK 25 and `-PvystormCoreJar=<Core 0.66.0+ jar>`. All source sets target Java 21. The `modern` source set isolates current Paper APIs and is included in the same jar. `check` includes `compat1206` (main sources compiled against the old API) and `test1206` (a server-free linkage/fallback smoke check against those libraries). Set `-Ppaper1206Libraries=<directory>` to override the default `<home>/source/tools/smoke-1206/libraries` location. The offline build needs the normal Gradle dependencies cached as well.
 
 ## Painting exhibitions
 

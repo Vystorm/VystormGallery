@@ -76,7 +76,7 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
     private Feature.Switches switches;
 
     /** Minimum Vystorm Core: placeholders through api.placeholders(). */
-    static final String MIN_CORE = "0.65.0";
+    static final String MIN_CORE = "0.66.0";
 
     /** Whether a feature (and gallery.enabled) is on; static so menus and mocked plugins in tests read the real field. */
     static boolean enabled(GalleryPlugin plugin, Feature feature) {
@@ -94,6 +94,13 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
             return true;
         }
         return false;
+    }
+
+    /** True (and the switch named) when a feature this one depends on is switched off. */
+    private boolean needs(CommandSender sender, Feature needed) {
+        if (on(needed)) return false;
+        lang.send(sender, "feature-needs", "switch", needed.path, "name", lang.plain(sender, needed.label()));
+        return true;
     }
 
     @Override
@@ -138,7 +145,7 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
         tasks.timer(20L, 20L, slideshow::tick);
         tasks.timer(10L, 10L, tours::tick);
         core.settings().config().register(this, "config.yml", this::load);
-        declareSwitches();
+        declareSwitches(core.settings().config(), this, lang);
         try { registerPlaceholders(core.placeholders()); }
         catch (RuntimeException failure) { getLogger().log(java.util.logging.Level.WARNING, "Placeholders not registered", failure); }
         registerCommands();
@@ -151,11 +158,10 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
     }
 
     /** Every switch in /vadmin features with its one-line description in the admin's language. */
-    private void declareSwitches() {
-        var config = core.settings().config();
+    static void declareSwitches(Vystorm.vystorm_core._uiMethods.settings.ConfigEditorInterface config, org.bukkit.plugin.Plugin plugin, Lang lang) {
         for (Feature feature : Feature.values()) {
-            config.feature(this, feature.path, null, lang.ref(feature.description()));
-            if (feature.needsRestart()) config.activation(this, feature.path, Vystorm.vystorm_core._uiMethods.settings.SettingPolicy.Activation.RESTART);
+            config.feature(plugin, feature.path, lang.ref(feature.label()), lang.ref(feature.description()));
+            if (feature.needsRestart()) config.activation(plugin, feature.path, Vystorm.vystorm_core._uiMethods.settings.SettingPolicy.Activation.RESTART);
         }
     }
 
@@ -185,8 +191,28 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
         if (core != null) core.settings().config().unregister(this);
     }
 
-    private void load() {
+    /** The YAML error of config.yml found by the last load ("line L, column C: ..."), null when it parsed. */
+    private String configProblem;
+    private boolean configLoaded;
+
+    /**
+     * Reads config.yml for start and reload. A file with a YAML error is left byte-identical and the error logged once;
+     * false is returned so that a reload keeps the last good settings (Bukkit would hand back the jar defaults).
+     */
+    boolean readConfig() {
+        configProblem = YamlCheck.problem(new java.io.File(getDataFolder(), "config.yml"));
+        if (configProblem != null) {
+            getLogger().severe("config.yml has a YAML error at " + configProblem + ". The file was left unchanged; "
+                    + (configLoaded ? "the last working settings stay in use." : "the default settings are used.") + " Fix it and run /vgallery reload.");
+            return false;
+        }
         reloadConfig();
+        return true;
+    }
+
+    private void load() {
+        if (!readConfig() && configLoaded) return;
+        configLoaded = true;
         Feature.Switches before = switches;
         switches = Feature.Switches.read(getConfig());
         if (lang != null) lang.reload();
@@ -689,7 +715,8 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
         if (sub.equals("reload")) {
             if (!sender.hasPermission("vystormgallery.admin")) { lang.send(sender, "denied"); return; }
             load();
-            lang.send(sender, "reloaded", "count", Integer.toString(all().size()));
+            if (configProblem != null) lang.send(sender, "config-broken", "file", "config.yml", "problem", configProblem);
+            else lang.send(sender, "reloaded", "count", Integer.toString(all().size()));
             return;
         }
         if (off(sender, Feature.GALLERY)) return;
@@ -702,7 +729,7 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
             case "slideshow" -> Feature.SLIDESHOW;
             default -> Feature.MOTIF_MENU; // menu, random and a motif name
         };
-        if (off(player, needed) || sub.equals("playlist") && off(player, Feature.SLIDESHOW)) return;
+        if (off(player, needed) || sub.equals("playlist") && needs(player, Feature.SLIDESHOW)) return;
         switch (sub) {
             case "menu" -> menu(player);
             case "random" -> random(player);
@@ -766,7 +793,8 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
                             if (interval == null) p.handle(ctx.sender(), ctx.label(), "slideshow");
                             else p.handle(ctx.sender(), ctx.label(), "slideshow", ctx.keyword(interval, "off") != null ? "off" : interval);
                         }))
-                .sub("playlist", s -> gate(gate(s, p, Feature.SLIDESHOW), p, Feature.PLAYLISTS).permission("vystormgallery.slideshow").playerOnly()
+                // listed while playlists are on, so that with slideshows off it can say which switch it needs
+                .sub("playlist", s -> gate(s, p, Feature.PLAYLISTS).permission("vystormgallery.slideshow").playerOnly()
                         .executes(ctx -> p.handle(ctx.sender(), ctx.label(), "playlist", "list"))
                         .sub("add", a -> a.executes(ctx -> p.handle(ctx.sender(), ctx.label(), "playlist", "add")))
                         .sub("remove", a -> a.executes(ctx -> p.handle(ctx.sender(), ctx.label(), "playlist", "remove")))
