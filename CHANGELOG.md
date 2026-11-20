@@ -1,3 +1,10 @@
+## 1.19.1 — 2026-11-20
+
+- New values `exhibitions.max-per-owner` (default 10) and `exhibitions.max-paintings` (default 60), each 1 to 1000: a building team can now put more than 60 paintings into one exhibition once the server raises the value. The defaults are the old fixed limits, and the keys are added to your existing `config.yml` with their comments.
+- The limit message names the numbers the server uses, in all seven languages.
+- A lower value only stops new exhibitions and paintings; bigger exhibitions stay as they are and can still be edited.
+- Going back to 1.19.0 with raised limits: as long as an owner has more than 10 exhibitions or an exhibition more than 60 paintings, 1.19.0 shows no exhibitions and leaves `exhibitions.yml` unchanged; with this version again everything is back.
+
 ## 1.19.0 — 2026-11-20
 
 - `/vgallery reload` with a YAML syntax error in `config.yml` keeps the last working settings instead of falling back to the defaults, and answers with the line and column of the error (also shown in the console, as on start). The file is never changed.

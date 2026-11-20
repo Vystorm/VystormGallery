@@ -98,6 +98,10 @@ slideshow:
 # publishing and votes. Off: the command and the menus are switched off; tours need this switch.
 exhibitions:
   enabled: true
+  # Most exhibitions one player may own and most paintings in one exhibition (each 1 to 1000). A lower value only
+  # stops new ones; exhibitions that are already bigger stay as they are.
+  max-per-owner: 10
+  max-paintings: 60
 
 tours:
   # Guided tours: a published exhibition with two or more paintings gets a "Tour" button. Visitors walk to each

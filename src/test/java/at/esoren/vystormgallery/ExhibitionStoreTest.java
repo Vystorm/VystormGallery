@@ -71,6 +71,51 @@ class ExhibitionStoreTest {
         assertEquals(Set.of(visitor), store().get(e.id()).votes());
     }
 
+    @Test void givenTheDefaultLimitsThenTheOldFixedLimitsStillApply() {
+        var s = store();
+        for (int i = 0; i < 10; i++) assertEquals(ExhibitionStore.Result.SAVED, s.create(owner, "e" + i));
+        assertEquals(ExhibitionStore.Result.LIMIT, s.create(owner, "e10"));
+        var e = s.own(owner, "e0");
+        for (int i = 0; i < 60; i++) assertEquals(ExhibitionStore.Result.SAVED, s.painting(owner, e.id(), painting(), true));
+        assertEquals(ExhibitionStore.Result.LIMIT, s.painting(owner, e.id(), painting(), true));
+    }
+
+    @Test void givenHigherLimitsWhenAnExhibitionGrowsThenItIsSavedAndReadBackAndALowerLimitKeepsIt() {
+        var s = store(); s.limits(12, 80);
+        for (int i = 0; i < 12; i++) assertEquals(ExhibitionStore.Result.SAVED, s.create(owner, "e" + i));
+        assertEquals(ExhibitionStore.Result.LIMIT, s.create(owner, "e12"));
+        var e = s.own(owner, "e0");
+        for (int i = 0; i < 80; i++) assertEquals(ExhibitionStore.Result.SAVED, s.painting(owner, e.id(), painting(), true));
+        assertEquals(ExhibitionStore.Result.LIMIT, s.painting(owner, e.id(), painting(), true));
+
+        var again = store(); // default limits again: the bigger file is still read and stays editable
+        assertEquals(12, again.all().size());
+        assertEquals(80, again.get(e.id()).paintings().size());
+        assertEquals(ExhibitionStore.Result.LIMIT, again.create(owner, "more"), "a lower limit stops new ones");
+        assertEquals(ExhibitionStore.Result.LIMIT, again.painting(owner, e.id(), painting(), true));
+        assertEquals(ExhibitionStore.Result.SAVED, again.painting(owner, e.id(), again.get(e.id()).paintings().getFirst(), false), "removing still works");
+        assertEquals(79, store().get(e.id()).paintings().size());
+
+        again.limits(0, 5000);
+        assertEquals(1, again.maxPerOwner());
+        assertEquals(ExhibitionStore.CEILING, again.maxPaintings());
+    }
+
+    @Test void limitMessageNamesTheLimitsInEveryLanguage() throws Exception {
+        for (String language : List.of("en", "de", "fr", "it", "pt_br", "ru", "zh_cn")) {
+            try (var in = getClass().getResourceAsStream("/lang/" + language + ".yml")) {
+                var yaml = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(new java.io.InputStreamReader(in, java.nio.charset.StandardCharsets.UTF_8));
+                String text = yaml.getString("exhibitions.result-limit", "");
+                assertTrue(text.contains("{exhibitions}") && text.contains("{paintings}"), language + ": " + text);
+            }
+        }
+        try (var in = getClass().getResourceAsStream("/config.yml")) {
+            var config = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(new java.io.InputStreamReader(in, java.nio.charset.StandardCharsets.UTF_8));
+            assertEquals(ExhibitionStore.DEFAULT_PER_OWNER, config.getInt("exhibitions.max-per-owner", -1));
+            assertEquals(ExhibitionStore.DEFAULT_PAINTINGS, config.getInt("exhibitions.max-paintings", -1));
+        }
+    }
+
     @org.junit.jupiter.params.ParameterizedTest
     @org.junit.jupiter.params.provider.ValueSource(strings = {"title", "description", "coordinate-fraction", "coordinate-overflow", "motif"})
     void malformedValuesAreRetainedWithoutCoercionOrOverwrite(String corruption) throws Exception {

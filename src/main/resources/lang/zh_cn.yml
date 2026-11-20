@@ -164,7 +164,7 @@ exhibitions:
   result-missing: "<red>未找到画展。"
   result-denied: "<red>你无权对该画展或画作执行此操作。"
   result-invalid: "<red>名称或文本无效或重复，或没有可公开的画作。"
-  result-limit: "<red>上限：每位玩家10个画展，每展60幅画。"
+  result-limit: "<red>上限：每位玩家{exhibitions}个画展，每展{paintings}幅画。"
   result-unavailable: "<red>画展存储不可用，更改未保存。"
   usage: "/vgallery exhibitions [create 名称 | open 名称 | add 名称 | title 名称 文本 | description 名称 文本 | caption 名称 文本 | tour 名称 | stop-tour | publish 名称 | hide 名称 | delete 名称]"
   tour: "开始导览"

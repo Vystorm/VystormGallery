@@ -116,7 +116,8 @@ final class GalleryPanels {
     }
     private Result denied(Player p) { return Result.error(plugin.lang().plain(p, "denied")); }
     private Result result(Player p, ExhibitionStore.Result value) {
-        String message = plugin.lang().plain(p, "exhibitions.result-" + value.name().toLowerCase(Locale.ROOT));
+        String message = plugin.lang().plain(p, "exhibitions.result-" + value.name().toLowerCase(Locale.ROOT),
+                "exhibitions", Integer.toString(store.maxPerOwner()), "paintings", Integer.toString(store.maxPaintings()));
         return value == ExhibitionStore.Result.SAVED ? Result.ok(message) : Result.error(message);
     }
 

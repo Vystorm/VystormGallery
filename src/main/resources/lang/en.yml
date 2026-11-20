@@ -164,7 +164,7 @@ exhibitions:
   result-missing: "<red>Exhibition not found."
   result-denied: "<red>You cannot perform this action on this exhibition or painting."
   result-invalid: "<red>Invalid or duplicate name/text, or no paintings to publish."
-  result-limit: "<red>Limit: 10 exhibitions per player, 60 paintings per exhibition."
+  result-limit: "<red>Limit: {exhibitions} exhibitions per player, {paintings} paintings per exhibition."
   result-unavailable: "<red>Exhibition storage is unavailable; changes were not saved."
   usage: "/vgallery exhibitions [create NAME | open NAME | add NAME | title NAME TEXT | description NAME TEXT | caption NAME TEXT | tour NAME | stop-tour | publish NAME | hide NAME | delete NAME]"
   tour: "Start the guided tour"

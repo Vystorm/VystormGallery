@@ -158,7 +158,7 @@ exhibitions:
   result-missing: "<red>Выставка не найдена."
   result-denied: "<red>Это действие с выставкой или картиной запрещено."
   result-invalid: "<red>Неверное или повторное имя/текст, либо нет картин для публикации."
-  result-limit: "<red>Лимит: 10 выставок на игрока, 60 картин на выставку."
+  result-limit: "<red>Лимит: {exhibitions} выставок на игрока, {paintings} картин на выставку."
   result-unavailable: "<red>Хранилище недоступно; изменения не сохранены."
   usage: "/vgallery exhibitions [create ИМЯ | open ИМЯ | add ИМЯ | title ИМЯ ТЕКСТ | description ИМЯ ТЕКСТ | caption ИМЯ ТЕКСТ | tour ИМЯ | stop-tour | publish ИМЯ | hide ИМЯ | delete ИМЯ]"
   tour: "Начать экскурсию"

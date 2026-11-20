@@ -164,7 +164,7 @@ exhibitions:
   result-missing: "<red>Ausstellung nicht gefunden."
   result-denied: "<red>Diese Aktion ist für diese Ausstellung oder dieses Gemälde nicht erlaubt."
   result-invalid: "<red>Ungültiger/doppelter Name oder Text, oder keine Gemälde zum Veröffentlichen."
-  result-limit: "<red>Limit: 10 Ausstellungen pro Spieler, 60 Gemälde pro Ausstellung."
+  result-limit: "<red>Limit: {exhibitions} Ausstellungen pro Spieler, {paintings} Gemälde pro Ausstellung."
   result-unavailable: "<red>Ausstellungsspeicher nicht verfügbar; Änderungen nicht gespeichert."
   usage: "/vgallery exhibitions [create NAME | open NAME | add NAME | title NAME TEXT | description NAME TEXT | caption NAME TEXT | tour NAME | stop-tour | publish NAME | hide NAME | delete NAME]"
   tour: "Führung starten"

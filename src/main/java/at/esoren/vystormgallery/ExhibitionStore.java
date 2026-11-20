@@ -17,6 +17,15 @@ final class ExhibitionStore {
     enum Result { SAVED, MISSING, DENIED, INVALID, LIMIT, UNAVAILABLE }
     private final Path file; private final Logger log; private final AtomicFilesInterface files;
     private Map<UUID, Exhibition> entries = new LinkedHashMap<>(); private boolean readOnly;
+    /** Defaults of {@code exhibitions.max-per-owner} and {@code exhibitions.max-paintings} (the fixed limits before 1.19.1). */
+    static final int DEFAULT_PER_OWNER = 10, DEFAULT_PAINTINGS = 60;
+    /** Highest value either limit may be set to; the file is read up to this size whatever the limits say. */
+    static final int CEILING = 1000;
+    private volatile int perOwner = DEFAULT_PER_OWNER, perExhibition = DEFAULT_PAINTINGS;
+    /** Sets the limits for new exhibitions and paintings (1 to {@link #CEILING}); existing ones above a lowered limit stay (1.19.1). */
+    void limits(int maxPerOwner, int maxPaintings) { perOwner = Math.clamp(maxPerOwner, 1, CEILING); perExhibition = Math.clamp(maxPaintings, 1, CEILING); }
+    int maxPerOwner() { return perOwner; }
+    int maxPaintings() { return perExhibition; }
     /** @param files Core's file part, {@code api.data().files()} */
     ExhibitionStore(Path file, Logger log, AtomicFilesInterface files) {
         this.file = file; this.log = log; this.files = files;
@@ -32,7 +41,7 @@ final class ExhibitionStore {
                 if (!name.matches("[A-Za-z0-9_-]{1,24}") || !text(title, 64, false) || !text(description, 240, true) || own(owner, name) != null) throw new IllegalArgumentException("invalid exhibition");
                 if (!(y.get(p + "paintings") instanceof List<?> rawPaintings) || rawPaintings.stream().anyMatch(r -> !(r instanceof Map<?, ?>))
                         || !(y.get(p + "votes") instanceof List<?> rawVotes) || rawVotes.stream().anyMatch(r -> !(r instanceof String))
-                        || !y.isBoolean(p + "published") || entries.values().stream().filter(e -> e.owner().equals(owner)).count() >= 10)
+                        || !y.isBoolean(p + "published") || entries.values().stream().filter(e -> e.owner().equals(owner)).count() >= CEILING)
                     throw new IllegalArgumentException("invalid exhibition data");
                 List<PaintingRef> paintings = new ArrayList<>();
                 for (Map<?, ?> raw : y.getMapList(p + "paintings")) {
@@ -41,7 +50,7 @@ final class ExhibitionStore {
                             coordinate(raw.get("x")), coordinate(raw.get("y")), coordinate(raw.get("z")), motif));
                 }
                 Set<UUID> votes = new HashSet<>(); for (String voter : y.getStringList(p + "votes")) votes.add(UUID.fromString(voter));
-                if (paintings.size() > 60 || paintings.stream().map(PaintingRef::entity).distinct().count() != paintings.size()) throw new IllegalArgumentException("invalid paintings");
+                if (paintings.size() > CEILING || paintings.stream().map(PaintingRef::entity).distinct().count() != paintings.size()) throw new IllegalArgumentException("invalid paintings");
                 entries.put(id, new Exhibition(id, owner, name, title, description, y.getBoolean(p + "published"), paintings, votes));
             }
         } catch (Exception failure) { entries.clear(); readOnly = true; log.warning("Exhibitions retained unchanged; editing disabled after load failure: " + failure.getMessage()); }
@@ -64,7 +73,7 @@ final class ExhibitionStore {
     Result create(UUID owner, String name) {
         if (readOnly) return Result.UNAVAILABLE;
         if (name == null || !name.matches("[A-Za-z0-9_-]{1,24}") || own(owner, name) != null) return Result.INVALID;
-        if (entries.values().stream().filter(e -> e.owner().equals(owner)).count() >= 10) return Result.LIMIT;
+        if (entries.values().stream().filter(e -> e.owner().equals(owner)).count() >= perOwner) return Result.LIMIT;
         return save(new Exhibition(UUID.randomUUID(), owner, name, name, "", false, List.of(), Set.of()), false);
     }
     private Result edit(UUID actor, Exhibition e) { return readOnly ? Result.UNAVAILABLE : e == null ? Result.MISSING : !e.owner().equals(actor) ? Result.DENIED : null; }
@@ -81,7 +90,7 @@ final class ExhibitionStore {
         for (int i = 0; i < paintings.size(); i++) if (paintings.get(i).entity().equals(painting.entity())) { at = i;break; }
         if (add) {
             if (at >= 0) paintings.set(at, painting); // already shown: keep its place
-            else { if (paintings.size() >= 60) return Result.LIMIT; paintings.add(painting); }
+            else { if (paintings.size() >= perExhibition) return Result.LIMIT; paintings.add(painting); }
         } else if (at >= 0) paintings.remove(at);
         if (paintings.equals(e.paintings())) return Result.SAVED; // nothing changed: keep votes and order
         return save(new Exhibition(id, actor, e.name(), e.title(), e.description(), e.published() && !paintings.isEmpty(), paintings, Set.of()), false);

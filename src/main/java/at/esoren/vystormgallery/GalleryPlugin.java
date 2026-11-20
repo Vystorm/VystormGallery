@@ -230,6 +230,8 @@ public final class GalleryPlugin extends JavaPlugin implements Listener {
         lock.switches(on(Feature.LOCK), on(Feature.LOCK_BREAK), on(Feature.LOCK_EXPLOSIONS));
         slideshow.load(getConfig().getConfigurationSection("slideshow"));
         slideshow.enabled(on(Feature.SLIDESHOW));
+        if (exhibitionStore != null) exhibitionStore.limits(getConfig().getInt("exhibitions.max-per-owner", ExhibitionStore.DEFAULT_PER_OWNER),
+                getConfig().getInt("exhibitions.max-paintings", ExhibitionStore.DEFAULT_PAINTINGS));
         if (!on(Feature.SCROLL)) sessions.clear();
         if (tours != null && !tours.enabled()) tours.endAll();
         // help and tab completion ask the switches live; only send online players their command list again

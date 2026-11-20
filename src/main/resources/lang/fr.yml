@@ -158,7 +158,7 @@ exhibitions:
   result-missing: "<red>Exposition introuvable."
   result-denied: "<red>Action non autorisée sur cette exposition ou peinture."
   result-invalid: "<red>Nom/texte invalide ou déjà utilisé, ou aucune peinture à publier."
-  result-limit: "<red>Limite : 10 expositions par joueur, 60 peintures par exposition."
+  result-limit: "<red>Limite : {exhibitions} expositions par joueur, {paintings} peintures par exposition."
   result-unavailable: "<red>Stockage indisponible ; modifications non enregistrées."
   usage: "/vgallery exhibitions [create NOM | open NOM | add NOM | title NOM TEXTE | description NOM TEXTE | caption NOM TEXTE | tour NOM | stop-tour | publish NOM | hide NOM | delete NOM]"
   tour: "Lancer la visite guidée"

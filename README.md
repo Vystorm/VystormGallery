@@ -115,7 +115,7 @@ Use `/vgallery exhibitions` or the Core menu to create named exhibitions, add pa
 
 Visitors can browse published exhibitions and toggle their single vote. Owners cannot vote for their own exhibition. Changing the paintings resets its votes; removing its last painting makes it private. Hiding an exhibition immediately blocks votes from already-open menus. Unloaded or removed paintings show their saved information without loading chunks.
 
-Metadata and votes persist atomically in `exhibitions.yml`. Limits: 10 exhibitions per player, 60 paintings each, 64 characters for titles and 240 for descriptions. Invalid files are retained with editing disabled. All new messages are available in all seven bundled languages.
+Metadata and votes persist atomically in `exhibitions.yml`. Limits: 10 exhibitions per player and 60 paintings each by default (`exhibitions.max-per-owner` and `exhibitions.max-paintings` in `config.yml`, 1 to 1000; a lower value only stops new ones), 64 characters for titles and 240 for descriptions. Invalid files are retained with editing disabled. All new messages are available in all seven bundled languages.
 
 ## License
 

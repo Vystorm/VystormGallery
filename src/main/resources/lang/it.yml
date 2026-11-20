@@ -160,7 +160,7 @@ exhibitions:
   result-missing: "<red>Mostra non trovata."
   result-denied: "<red>Azione non consentita su questa mostra o dipinto."
   result-invalid: "<red>Nome/testo non valido o duplicato, oppure nessun dipinto da pubblicare."
-  result-limit: "<red>Limite: 10 mostre per giocatore, 60 dipinti per mostra."
+  result-limit: "<red>Limite: {exhibitions} mostre per giocatore, {paintings} dipinti per mostra."
   result-unavailable: "<red>Archivio non disponibile; modifiche non salvate."
   usage: "/vgallery exhibitions [create NOME | open NOME | add NOME | title NOME TESTO | description NOME TESTO | caption NOME TESTO | tour NOME | stop-tour | publish NOME | hide NOME | delete NOME]"
   tour: "Avvia la visita guidata"
